@@ -1,0 +1,80 @@
+@startuml
+
+enum Core.SavingThrowType{
+    None
+    FlatValue
+    DC
+}
+
+class Core.Spellcasting.SpellSchoolDefinition{
+    + name: string
+    + description: string
+    + compendium: Compendium
+    + spells: SpellDefinition[]
+}
+
+class Core.Spellcasting.SpellDefinition{
+    + name : string
+    + level: integer
+    + time: TimeEnum
+    + range: integer
+    + components: SpellComponentDefinition[]
+    + duration: integer
+    + concentration: bool
+    + description: string
+    + atHigherLevelsFormula: string
+    + classes: string[]
+    + ritual: bool
+    + savingThrow: SavingThrowType
+    + savingThrowAbility: Ability
+    + additionalEffects: ConditionEffect[]
+    + school : SpellSchoolDefinition
+}
+
+class Character.Spellcasting.Spell{
+    + isPrepared : bool
+    + castingLevel: integer
+    # spellDefinition: SpellDefinition
+    - owner: CharacterSheet
+    + _constructor_(SpellDefinition, CharacterSheet)
+    + string Name()
+    + string School()
+    + integer BaseLevel()
+    + string CastingTime()
+    + string Range()
+    + string Description()
+    + bool RequiresConcentration()
+    + bool IsRitual()
+    + void SetCastingLevel(integer)
+    - string ParseDefinition()
+    - bool Validate()
+}
+
+struct Core.Spellcasting.SpellComponentDefinition{
+    name: string
+    description: string
+}
+
+class Character.CharacterSheet{
+
+}
+
+struct Core.Data.Ability{    
+    name: string
+    description: string
+    compendium: Compendium
+}
+
+struct Core.Data.ConditionEffect{    
+    name: string
+    description: string
+    compendium: Compendium
+}
+
+SpellSchoolDefinition --> SpellDefinition
+SpellDefinition *-- SpellComponentDefinition
+SpellDefinition ..> Ability
+SpellDefinition ..> ConditionEffect
+Spell --> SpellDefinition
+CharacterSheet ..> Spell
+@enduml

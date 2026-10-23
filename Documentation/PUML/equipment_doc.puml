@@ -1,0 +1,229 @@
+@startuml
+set separator none
+skinparam linetype ortho
+skinparam nodesep 120
+
+package Core {
+
+  class Compendium {
+    +id: string
+    +name: string
+  }
+
+  abstract class CatalogEntry {
+    +id: string
+    +name: string
+    +description: string
+  }
+
+  class DamageRoll <<value object>> {
+    +diceCount: int
+    +dieSize: int
+    +flatBonus: int
+  }
+
+  class Damage <<value object>>
+
+  <> catalogSplit
+
+  class Ability
+  class DamageType
+
+  package Equipment {
+
+    package Enums {
+      enum ArmorCategory {
+        Light
+        Medium
+        Heavy
+        Shield
+      }
+
+      enum WeaponCategory {
+        Simple
+        Martial
+      }
+
+      enum DamageModification {
+        Resistance
+        Immunity
+        Vulnerability
+      }
+
+      enum AbilityScoreMode {
+        Set
+        Increase
+      }
+    }
+
+    package Immutable {
+      class ItemType
+      class ItemRarity
+    }
+
+    class ItemDefinition {
+      +cost: int
+      +weight: int
+      +type: ItemType
+    }
+
+    <> itemSplit
+
+    package Mundane {
+
+      <> mundaneSplit
+
+      class MundaneItemDefinition
+
+      class ArmorDefinition {
+        +category: ArmorCategory
+        +baseArmorClass: int
+        +bonusArmorClassModifier: int
+        +useDex: bool
+        +dexModifierCap: int?
+        +strRequirement: int
+        +stealthDisadvantage: bool
+      }
+
+      class WeaponDefinition {
+        +category: WeaponCategory
+        +isRanged: bool
+      }
+
+      class WeaponPropertyDefinition
+
+      class WeaponMasteryDefinition
+
+      class WeaponPropertyUsage <<value object>> {
+        +normalRange: int?
+        +longRange: int?
+      }
+
+      class CreatureItemDefinition {
+        +isMount: bool
+        +carryCapacity: int
+      }
+
+      class PoisonItemDefinition
+
+      class ToolDefinition {
+        +ability: Ability
+        +utilize: string
+      }
+    }
+
+    package Magical {
+
+      <> effectSplit
+
+      class MagicalItemDefinition {
+        +rarity: ItemRarity
+        +attunement: bool
+        +attunementRequirement: string?
+        +consumable: bool
+        +charges: int
+        +rechargeRule: string?
+      }
+
+      class MagicalItemProperty
+
+      abstract class MagicalEffect <<value object>> {
+        +condition: string?
+      }
+
+      class AttackBonusEffect <<value object>> {
+        +bonus: int
+      }
+
+      class DamageBonusEffect <<value object>> {
+        +damage: Damage
+      }
+
+      class ArmorClassBonusEffect <<value object>> {
+        +bonus: int
+      }
+
+      class SavingThrowBonusEffect <<value object>> {
+        +bonus: int
+        +ability: Ability?
+      }
+
+      class AbilityScoreEffect <<value object>> {
+        +ability: Ability
+        +mode: AbilityScoreMode
+        +value: int
+      }
+
+      class DamageResistanceEffect <<value object>> {
+        +damageType: DamageType
+        +kind: DamageModification
+      }
+    }
+  }
+}
+
+note right of CatalogEntry
+  Voce di catalogo immutabile.
+  Identità = id stabile.
+  Origine = compendium (manuale base o homebrew).
+end note
+
+note right of MagicalEffect
+  Insieme chiuso: il motore deve saper applicare
+  ogni effetto. Il master compone proprietà con
+  effetti esistenti; il testo resta la via libera.
+end note
+
+' Ereditarietà: voci di catalogo
+catalogSplit -up-|> CatalogEntry
+ItemDefinition -up- catalogSplit
+ItemType -up- catalogSplit
+ItemRarity -up- catalogSplit
+DamageType -up- catalogSplit
+Ability -up- catalogSplit
+WeaponPropertyDefinition -up- catalogSplit
+WeaponMasteryDefinition -up- catalogSplit
+MagicalItemProperty -up- catalogSplit
+
+' Ereditarietà: oggetti
+itemSplit -up-|> ItemDefinition
+itemSplit -down- MagicalItemDefinition
+itemSplit -left- MundaneItemDefinition
+
+mundaneSplit -up-|> MundaneItemDefinition
+mundaneSplit -- ArmorDefinition
+mundaneSplit -- WeaponDefinition
+mundaneSplit -- CreatureItemDefinition
+mundaneSplit -- PoisonItemDefinition
+mundaneSplit -- ToolDefinition
+
+' Ereditarietà: effetti magici
+effectSplit -up-|> MagicalEffect
+AttackBonusEffect -up- effectSplit
+DamageBonusEffect -up- effectSplit
+ArmorClassBonusEffect -up- effectSplit
+SavingThrowBonusEffect -up- effectSplit
+AbilityScoreEffect -up- effectSplit
+DamageResistanceEffect -up- effectSplit
+
+' Origine
+CatalogEntry -left-> "1" Compendium : compendium
+
+' Armi
+WeaponDefinition "1" *-down- "0..*" WeaponPropertyUsage : properties
+WeaponPropertyUsage -right-> "1" WeaponPropertyDefinition : property
+WeaponDefinition -down-> "0..1" WeaponMasteryDefinition : mastery
+WeaponDefinition *-down-> "0..1" Damage : damage
+WeaponPropertyUsage *-left-> "0..1" DamageRoll : alternateRoll
+
+' Danno
+Damage *-right-> "1" DamageRoll : roll
+Damage -down-> "1" DamageType : type
+
+' Altre relazioni strutturali
+CreatureItemDefinition -right-> "0..1" ArmorDefinition : barding
+ToolDefinition -left-> "0..*" MundaneItemDefinition : craftableItems
+MagicalItemDefinition -left-> "0..1" MundaneItemDefinition : baseItem
+MagicalItemDefinition -down-> "0..*" MagicalItemProperty : magicalProperties
+MagicalItemProperty *-down-> "0..*" MagicalEffect : effects
+@enduml

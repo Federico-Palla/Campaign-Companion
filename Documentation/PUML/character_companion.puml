@@ -1,0 +1,148 @@
+@startuml
+enum Core.TimeEnum{
+    Action
+    BonusAction
+    Reaction
+}
+
+enum Core.SavingThrowType{
+    None
+    FlatValue
+    DC
+}
+
+struct Core.ConditionEffect{    
+    name: string
+    description: string
+    compendium: Compendium
+}
+
+
+class Core.Spellcasting.SpellcastingTable{
+    + maxLevel: integer
+    + data: SpellcastingRow[maxLevel]
+}
+
+class Core.Spellcasting.SpellcastingRow{
+    + level: integer
+    + cantripsNo: integer
+    + preparedSpellsNo: integer
+    + spellSlotsMap: Dict<integer, integer>
+}
+
+class Core.Compendium{    
+    + SpellSchoolDefinitions : SpellSchoolDefinition[]
+    + conditions: ConditionEffect[]
+    + abilities: Ability[]
+}
+
+class Core.Class{
+    + compendium: Compendium
+    + name: string
+    + description: string
+    + primaryAbilities: Ability[]
+    + hitPointDie: string
+    + proficiencySavingThrows: Ability[]
+    + skillProficiencyList: Skill[]
+    + initialSkillSelectionCount: integer
+    + weaponProficiencies: ItemType[]
+    + armorTraining: ItemType[]
+    + classFeatures: Dict<int,ClassFeature>
+    + isSpellcaster: bool
+    + spellcastingTable: SpellcastingTable
+    + classResources: ClassResource[]
+}
+
+class Core.ClassFeature{    
+    + name: string
+    + description: string
+    + compendium: Compendium
+    + additionalSpells: Dict<int, SpellDefinition[]>
+}
+
+class Core.ClassResource{    
+    + compendium: Compendium
+    + name: string
+    + description: string
+    + resourceCalculationFormula: string
+}
+
+struct Core.Ability{    
+    name: string
+    description: string
+    compendium: Compendium
+}
+
+struct Core.Skill{    
+    name: string
+    description: string
+    compendium: Compendium
+}
+
+struct Core.ItemType{    
+    name: string
+    description: string
+    compendium: Compendium
+}
+
+struct Core.Die{
+    name: string
+    maxValue: integer
+    minValue: integer
+
+    integer RollDie()
+    integer GetMeanValue()
+}
+
+
+
+class Core.Equipment.Item{    
+    name: string
+    description: string
+    compendium: Compendium
+    weight: integer
+    cost: integer
+    rarity: ItemRarityEnum
+    type: ItemType
+}
+
+struct Core.Equipment.ItemType{    
+    name: string
+    description: string
+    compendium: Compendium
+}
+
+enum Core.Equipment.ItemRarityEnum{
+    Mundane
+    Common
+    Uncommon
+    Rare
+    VeryRare
+    Legendary
+    Artifact
+}
+
+class Core.Equipment.Weapon{
+    weaponType: WeaponType
+}
+
+struct Core.Equipment.WeaponType{
+        
+    name: string
+    description: string
+    compendium: Compendium
+}
+
+
+Skill --> Ability
+Core.Class --> Skill
+Core.Class --> ItemType
+Core.Class o-- ClassFeature
+SpellcastingTable --> SpellcastingRow
+Core.Class ..> SpellcastingTable
+Core.Class --> ClassResource
+
+
+Item --> ItemType
+Item --|> Weapon
+@enduml
