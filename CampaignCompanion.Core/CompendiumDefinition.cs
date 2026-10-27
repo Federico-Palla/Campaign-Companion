@@ -1,6 +1,6 @@
-﻿using CampaignCompanion.App.Core.Catalog;
+﻿using CampaignCompanion.Core.Catalog;
 
-namespace CampaignCompanion.App.Core;
+namespace CampaignCompanion.Core;
 
 public sealed class CompendiumDefinition
 {

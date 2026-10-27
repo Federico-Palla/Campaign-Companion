@@ -1,0 +1,13 @@
+C:\Users\fpbal\Documents\_Fede\Progetti\Campaign-Companion\CampaignCompanion.Core\bin\Debug\net10.0\CampaignCompanion.Core.deps.json
+C:\Users\fpbal\Documents\_Fede\Progetti\Campaign-Companion\CampaignCompanion.Core\bin\Debug\net10.0\CampaignCompanion.Core.dll
+C:\Users\fpbal\Documents\_Fede\Progetti\Campaign-Companion\CampaignCompanion.Core\bin\Debug\net10.0\CampaignCompanion.Core.pdb
+C:\Users\fpbal\Documents\_Fede\Progetti\Campaign-Companion\CampaignCompanion.Core\obj\Debug\net10.0\CampaignCompanion.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\fpbal\Documents\_Fede\Progetti\Campaign-Companion\CampaignCompanion.Core\obj\Debug\net10.0\CampaignCompanion.Core.AssemblyInfoInputs.cache
+C:\Users\fpbal\Documents\_Fede\Progetti\Campaign-Companion\CampaignCompanion.Core\obj\Debug\net10.0\CampaignCompanion.Core.AssemblyInfo.cs
+C:\Users\fpbal\Documents\_Fede\Progetti\Campaign-Companion\CampaignCompanion.Core\obj\Debug\net10.0\CampaignCompanion.Core.csproj.CoreCompileInputs.cache
+C:\Users\fpbal\Documents\_Fede\Progetti\Campaign-Companion\CampaignCompanion.Core\obj\Debug\net10.0\CampaignCompanion.Core.sourcelink.json
+C:\Users\fpbal\Documents\_Fede\Progetti\Campaign-Companion\CampaignCompanion.Core\obj\Debug\net10.0\CampaignCompanion.Core.dll
+C:\Users\fpbal\Documents\_Fede\Progetti\Campaign-Companion\CampaignCompanion.Core\obj\Debug\net10.0\refint\CampaignCompanion.Core.dll
+C:\Users\fpbal\Documents\_Fede\Progetti\Campaign-Companion\CampaignCompanion.Core\obj\Debug\net10.0\CampaignCompanion.Core.pdb
+C:\Users\fpbal\Documents\_Fede\Progetti\Campaign-Companion\CampaignCompanion.Core\obj\Debug\net10.0\ref\CampaignCompanion.Core.dll
+C:\Users\fpbal\Documents\_Fede\Progetti\Campaign-Companion\CampaignCompanion.Core\obj\Debug\net10.0\Campaign.D02501D0.Up2Date

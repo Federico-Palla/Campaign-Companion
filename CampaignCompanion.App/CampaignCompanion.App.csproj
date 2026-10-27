@@ -7,4 +7,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CampaignCompanion.Core\CampaignCompanion.Core.csproj" />
+  </ItemGroup>
+  
 </Project>
