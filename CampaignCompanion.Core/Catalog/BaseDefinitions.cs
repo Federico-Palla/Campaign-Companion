@@ -32,3 +32,8 @@ public sealed record BonusDefinition
 }
 
 public sealed record DiceRoll(int DiceCount, DiceSizeEnum DiceSize);
+
+public sealed record RangeInterval(int Range)
+{
+    public int LongRange { get; set; }
+}

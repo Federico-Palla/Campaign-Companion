@@ -34,8 +34,7 @@ public sealed record WeaponMasteryDefinition : CatalogEntry;
 public sealed record WeaponPropertyUsageDefinition
 {
     public required WeaponPropertyDefinition Property { get; set; }
-    public int NormalRange { get; set; } = 0;
-    public int LongRange { get; set; } = 0;
+    public RangeInterval? Range { get; set; }
     public DiceRoll? AlternateRoll { get; set; }
 }
 public sealed record WeaponDefinition : MundaneItemDefinition

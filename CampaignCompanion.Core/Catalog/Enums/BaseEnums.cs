@@ -10,3 +10,5 @@ public enum DiceSizeEnum
     D12 = 12,
     D20 = 20
 }
+
+public enum ActionTypeEnum { Action, BonusAction, Reaction }
