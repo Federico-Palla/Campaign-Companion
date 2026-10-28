@@ -10,5 +10,11 @@
   <ItemGroup>
     <ProjectReference Include="..\CampaignCompanion.Core\CampaignCompanion.Core.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="JSON\**\*.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   
 </Project>

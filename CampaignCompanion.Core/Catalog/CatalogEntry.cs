@@ -7,6 +7,7 @@ public abstract record CatalogEntry
 {
     public Guid Id { get; init; } = Guid.NewGuid();   // dal DB sovrascrivi, per l'homebrew nuovo è già pronto
     public required string Name { get; init; }
+    public required int Version { get; init; }
     public string Description { get; init; } = string.Empty;
-    public required Guid CompendiumId { get; init; }
+    public Guid CompendiumId { get; set; }
 }

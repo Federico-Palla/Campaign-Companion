@@ -1,0 +1,67 @@
+{
+  "Compendium": {
+    "Id": "7bb94f11-1234-4b5a-9c7e-8a9b0c1d2e99",
+    "Name": "Technomancy Expansion",
+    "Version": 1,
+    "Description": "An expansion compendium introducing advanced tech attributes, hacking skills, and cyber-damage types.",
+    "Tag": "expansion",
+    "CreationDate": "2026-06-08T10:00:00Z",
+    "LastUpdatedAt": "2026-06-08T10:00:00Z",
+    "CompendiumDependencies": [
+      "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    ]
+  },
+  "Technomancy": {
+    "Abilities": [
+      {
+        "Id": "a99999f1-1111-4a1a-8a1a-111111111111",
+        "Name": "Processing",
+        "Description": "Character's computational speed and logical multitasking ability",
+        "Version": 1
+      },
+      {
+        "Id": "a99999f2-2222-4a2a-8a2a-222222222222",
+        "Name": "Resonance",
+        "Description": "Character's attunement to digital and cybernetic frequencies",
+        "Version": 1
+      }
+    ],
+    "Skills": [
+      {
+        "Id": "888888f1-1111-4b1b-8b1b-111111111111",
+        "Name": "Hacking",
+        "Description": "Bypassing digital firewalls and manipulating mainframe security systems.",
+        "Version": 1,
+        "Attribute": "a99999f1-1111-4a1a-8a1a-111111111111"
+      },
+      {
+        "Id": "888888f2-2222-4b2b-8b2b-222222222222",
+        "Name": "Overclocking",
+        "Description": "Pushing cybernetic hardware beyond safe thermal limits for short-term power spikes.",
+        "Version": 1,
+        "Attribute": "a99999f2-2222-4a2a-8a2a-222222222222"
+      },
+      {
+        "Id": "888888f3-3333-4b3b-8b3b-333333333333",
+        "Name": "Cyber-Athletics",
+        "Description": "Using reinforced servo-actuators to enhance physical lifting and jumping beyond biological limits.",
+        "Version": 1,
+        "Attribute": "b82b94f1-1234-4b5a-9c7e-8a9b0c1d2e3f"
+      }
+    ],
+    "DamageTypes": [
+      {
+        "Id": "777777f1-1111-4c1c-8c1c-111111111111",
+        "Name": "EMP",
+        "Description": "Electromagnetic pulse damage that fries circuits and deactivates cyberware.",
+        "Version": 1
+      },
+      {
+        "Id": "777777f2-2222-4c2c-8c2c-222222222222",
+        "Name": "Plasma",
+        "Description": "Superheated ionized gas that melts armor and burns flesh simultaneously.",
+        "Version": 1
+      }
+    ]
+  }
+}

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CampaignCompanion.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a343cf71d0019ac235531fe403052f9639f23929")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dc37de9974aca408ea897cdd1dceb2cd72ab1112")]
 [assembly: System.Reflection.AssemblyProductAttribute("CampaignCompanion.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CampaignCompanion.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

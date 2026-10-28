@@ -13,7 +13,7 @@ public sealed record AbilityDefinition : CatalogEntry;
 /// </summary>
 public sealed record SkillDefinition : CatalogEntry
 {
-    public required AbilityDefinition Attribute { get; init; }
+    public required Guid Attribute { get; init; }
 }
 
 /// <summary>

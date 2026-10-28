@@ -1,39 +1,26 @@
-﻿using CampaignCompanion.Core;
+﻿using CampaignCompanion.App;
+using CampaignCompanion.Core;
 using CampaignCompanion.Core.Catalog;
-using CampaignCompanion.Core.Catalog.Enums;
-using CampaignCompanion.Core.Catalog.Equipment;
+using System.Text.Json;
 
-Guid compendiumId = Guid.NewGuid();
-AbilityDefinition wisdom = new() { Name = "Wisdom", Description = "Describes the character's wisdom", CompendiumId = compendiumId };
-SkillDefinition perception = new() { Name = "Perception", Description = "Ability to perceive your surroundings", CompendiumId = compendiumId, Attribute = wisdom};
-ItemTypeDefinition weaponType = new() { Name = "Weapon", Description = "Item used to deal some bonks", CompendiumId = compendiumId };
-WeaponCategoryDefinition wc = new() { Name = "Martial", Description = "", CompendiumId = compendiumId };
-WeaponPropertyDefinition prop = new() { Name = "Versatile", Description = "Versatile", CompendiumId = compendiumId };
-WeaponPropertyUsageDefinition longProp = new() { Property = prop, AlternateRoll = new DiceRoll(1, DiceSizeEnum.D10)};
-WeaponDefinition longsword = new()
-{
-    Name = "Longsword",
-    Description = "Sharp weapon indeed",
-    CompendiumId = compendiumId,
-    Cost = 50,
-    Weight = 1,
-    Type = weaponType,
-    Category = wc,
-    WeaponProperties = [longProp],
-    Damage = new DiceRoll(1, DiceSizeEnum.D8)
-}; 
+CompendiumManager manager = new CompendiumManager();
+manager.LoadCompendiaFromLocalJson();
 
-CompendiumDefinition compendium = new(compendiumId, "Test CompendiumId", [wisdom, perception, weaponType, longsword]);
+//manager.TryEnableCompendiumById(new Guid("7bb94f11-1234-4b5a-9c7e-8a9b0c1d2e99")); 
+manager.TryEnableCompendiumById(new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa6")); 
 
+return;
 
-Console.WriteLine($"Using {compendium.Name} as a source. Current content:");
-foreach (var entry in compendium.Entries.Where(e => e.CompendiumId == compendiumId))
-{
-    Console.WriteLine($"\t- {entry.Name}: {entry.Description}");
-}
+string basePath = AppContext.BaseDirectory;
+string path = Path.Combine(basePath, "JSON", "test_compendium.json"); 
+string jsonString = File.ReadAllText(path);
 
-Console.WriteLine($"Using {compendium.Name} as a source. Current weapons are:");
-foreach (var entry in compendium.Of<WeaponDefinition>())
-{
-    Console.WriteLine($"\t- {entry.Name}: {entry.Description}");
-}
+// Deserialize into the wrapper root
+CompendiumFileRoot? root = JsonSerializer.Deserialize<CompendiumFileRoot>(jsonString);
+
+// Extract your CompendiumDefinition
+CompendiumDefinition? compendiumDefinition = root?.Compendium;
+if (compendiumDefinition == null) throw new Exception("SUKKA");
+
+Compendium compendium = new(compendiumDefinition);
+Console.WriteLine(compendium.ToString());

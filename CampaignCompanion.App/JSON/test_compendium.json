@@ -1,0 +1,242 @@
+{
+  "Compendium": {
+    "Id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "Name": "Core Rulebook",
+    "Version": 1,
+    "Description": "The primary rules and definitions for the campaign system.",
+    "Tag": "core",
+    "CreationDate": "2026-06-01T12:00:00Z",
+    "LastUpdatedAt": "2026-06-07T15:30:00Z",
+    "CompendiumDependencies": [ ]
+  },
+  "Core": {
+    "Abilities": [
+      {
+        "Id": "b82b94f1-1234-4b5a-9c7e-8a9b0c1d2e3f",
+        "Name": "Strength",
+        "Description": "Character's physical might",
+        "Version": 1
+      },
+      {
+        "Id": "a2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e",
+        "Name": "Dexterity",
+        "Description": "Character's overall agility, reflexes, and balance",
+        "Version": 1
+      },
+      {
+        "Id": "b3c4d5e6-f7a8-4c9d-0e1f-2a3b4c5d6e7f",
+        "Name": "Constitution",
+        "Description": "Character's health, stamina, and vital force",
+        "Version": 1
+      },
+      {
+        "Id": "c4d5e6f7-a8b9-4d0e-1f2a-3b4c5d6e7f8a",
+        "Name": "Intelligence",
+        "Description": "Character's mental acuity, memory, and analytical skill",
+        "Version": 1
+      },
+      {
+        "Id": "d5e6f7a8-b9c0-4e1f-2a3b-4c5d6e7f8a9b",
+        "Name": "Wisdom",
+        "Description": "Character's intuition, perception, and spiritual awareness",
+        "Version": 1
+      },
+      {
+        "Id": "e6f7a8b9-c0d1-4f2a-3b4c-5d6e7f8a9b0c",
+        "Name": "Charisma",
+        "Description": "Character's force of personality, persuasiveness, and leadership",
+        "Version": 1
+      }
+    ],
+    "Skills": [
+      {
+        "Id": "b11114f1-1234-4b5a-9c7e-8a9b0c11113f",
+        "Name": "Athletics",
+        "Description": "Character's proficiency in performing athletic tasks, such as climbing, jumping, or swimming.",
+        "Version": 1,
+        "Attribute": "b82b94f1-1234-4b5a-9c7e-8a9b0c1d2e3f"
+      },
+      {
+        "Id": "f1000001-0000-4000-8000-000000000001",
+        "Name": "Acrobatics",
+        "Description": "Character's ability to stay on their feet in tricky situations or perform acrobatic stunts.",
+        "Version": 1,
+        "Attribute": "a2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e"
+      },
+      {
+        "Id": "f1000002-0000-4000-8000-000000000002",
+        "Name": "Sleight of Hand",
+        "Description": "Manual trickery, such as planting objects, picking pockets, or concealing items.",
+        "Version": 1,
+        "Attribute": "a2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e"
+      },
+      {
+        "Id": "f1000003-0000-4000-8000-000000000003",
+        "Name": "Stealth",
+        "Description": "Concealing oneself from enemies, slinking away unnoticed, or sneaking up on someone.",
+        "Version": 1,
+        "Attribute": "a2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e"
+      },
+      {
+        "Id": "f1000004-0000-4000-8000-000000000004",
+        "Name": "Arcana",
+        "Description": "Knowledge about spells, magic items, eldritch symbols, magical traditions, and planes of existence.",
+        "Version": 1,
+        "Attribute": "c4d5e6f7-a8b9-4d0e-1f2a-3b4c5d6e7f8a"
+      },
+      {
+        "Id": "f1000005-0000-4000-8000-000000000005",
+        "Name": "History",
+        "Description": "Recall of historical events, legendary figures, ancient kingdoms, and lost civilizations.",
+        "Version": 1,
+        "Attribute": "c4d5e6f7-a8b9-4d0e-1f2a-3b4c5d6e7f8a"
+      },
+      {
+        "Id": "f1000006-0000-4000-8000-000000000006",
+        "Name": "Investigation",
+        "Description": "Deducing clues, uncovering hidden structural details, or searching through documents for information.",
+        "Version": 1,
+        "Attribute": "c4d5e6f7-a8b9-4d0e-1f2a-3b4c5d6e7f8a"
+      },
+      {
+        "Id": "f1000007-0000-4000-8000-000000000007",
+        "Name": "Nature",
+        "Description": "Recall of lore about terrain, plants and animals, weather, and natural cycles.",
+        "Version": 1,
+        "Attribute": "c4d5e6f7-a8b9-4d0e-1f2a-3b4c5d6e7f8a"
+      },
+      {
+        "Id": "f1000008-0000-4000-8000-000000000008",
+        "Name": "Religion",
+        "Description": "Recall of lore about deities, rites, holy symbols, secret cults, and religious practices.",
+        "Version": 1,
+        "Attribute": "c4d5e6f7-a8b9-4d0e-1f2a-3b4c5d6e7f8a"
+      },
+      {
+        "Id": "f1000009-0000-4000-8000-000000000009",
+        "Name": "Animal Handling",
+        "Description": "Calming down domesticated animals, keeping a mount from getting spooked, or intuiting animal intent.",
+        "Version": 1,
+        "Attribute": "d5e6f7a8-b9c0-4e1f-2a3b-4c5d6e7f8a9b"
+      },
+      {
+        "Id": "f1000010-0000-4000-8000-000000000010",
+        "Name": "Insight",
+        "Description": "Determining the true intentions of a creature, sensing lies, or predicting someone's next move.",
+        "Version": 1,
+        "Attribute": "d5e6f7a8-b9c0-4e1f-2a3b-4c5d6e7f8a9b"
+      },
+      {
+        "Id": "f1000011-0000-4000-8000-000000000011",
+        "Name": "Medicine",
+        "Description": "Diagnosing illnesses, stabilizing a dying companion, or treating injuries.",
+        "Version": 1,
+        "Attribute": "d5e6f7a8-b9c0-4e1f-2a3b-4c5d6e7f8a9b"
+      },
+      {
+        "Id": "f1000012-0000-4000-8000-000000000012",
+        "Name": "Perception",
+        "Description": "Spotting, hearing, or sensing the presence of something hidden or obscure.",
+        "Version": 1,
+        "Attribute": "d5e6f7a8-b9c0-4e1f-2a3b-4c5d6e7f8a9b"
+      },
+      {
+        "Id": "f1000013-0000-4000-8000-000000000013",
+        "Name": "Survival",
+        "Description": "Following tracks, hunting wild game, guiding a group through frozen wastes, and avoiding natural hazards.",
+        "Version": 1,
+        "Attribute": "d5e6f7a8-b9c0-4e1f-2a3b-4c5d6e7f8a9b"
+      },
+      {
+        "Id": "f1000014-0000-4000-8000-000000000014",
+        "Name": "Deception",
+        "Description": "Determining whether you can convincingly hide the truth through speech, action, or disguise.",
+        "Version": 1,
+        "Attribute": "e6f7a8b9-c0d1-4f2a-3b4c-5d6e7f8a9b0c"
+      },
+      {
+        "Id": "f1000015-0000-4000-8000-000000000015",
+        "Name": "Intimidation",
+        "Description": "Influencing someone through overt threats, hostile actions, or physical force.",
+        "Version": 1,
+        "Attribute": "e6f7a8b9-c0d1-4f2a-3b4c-5d6e7f8a9b0c"
+      },
+      {
+        "Id": "f1000016-0000-4000-8000-000000000016",
+        "Name": "Performance",
+        "Description": "Delighting an audience with music, dance, acting, storytelling, or other entertainment.",
+        "Version": 1,
+        "Attribute": "e6f7a8b9-c0d1-4f2a-3b4c-5d6e7f8a9b0c"
+      },
+      {
+        "Id": "f1000017-0000-4000-8000-000000000017",
+        "Name": "Persuasion",
+        "Description": "Influencing someone with tact, social grace, good nature, or diplomatic conversation.",
+        "Version": 1,
+        "Attribute": "e6f7a8b9-c0d1-4f2a-3b4c-5d6e7f8a9b0c"
+      }
+    ],
+    "DamageTypes": [
+      {
+        "Id": "f1000018-0000-4000-8000-000000000018",
+        "Name": "Slashing",
+        "Description": "Damage dealt by sharp edges, such as swords, axes, and claws.",
+        "Version": 1
+      },
+      {
+        "Id": "f1000019-0000-4000-8000-000000000019",
+        "Name": "Piercing",
+        "Description": "Damage dealt by punctures and impalement, such as spears, arrows, and fangs.",
+        "Version": 1
+      },
+      {
+        "Id": "f1000020-0000-4000-8000-000000000020",
+        "Name": "Bludgeoning",
+        "Description": "Damage dealt by blunt force impacts, such as hammers, falls, and constrictions.",
+        "Version": 1
+      },
+      {
+        "Id": "f1000021-0000-4000-8000-000000000021",
+        "Name": "Fire",
+        "Description": "Damage dealt by burning flames, molten rock, and extreme heat sources.",
+        "Version": 1
+      },
+      {
+        "Id": "f1000022-0000-4000-8000-000000000022",
+        "Name": "Cold",
+        "Description": "Damage dealt by freezing temperatures, ice, and magical frost.",
+        "Version": 1
+      },
+      {
+        "Id": "f1000023-0000-4000-8000-000000000023",
+        "Name": "Lightning",
+        "Description": "Damage dealt by electrical arcs, static discharges, and lightning bolts.",
+        "Version": 1
+      },
+      {
+        "Id": "f1000024-0000-4000-8000-000000000024",
+        "Name": "Acid",
+        "Description": "Damage dealt by corrosive chemical substances and acidic secretions.",
+        "Version": 1
+      },
+      {
+        "Id": "f1000025-0000-4000-8000-000000000025",
+        "Name": "Poison",
+        "Description": "Damage dealt by venoms, toxins, and biological poisons.",
+        "Version": 1
+      },
+      {
+        "Id": "f1000026-0000-4000-8000-000000000026",
+        "Name": "Necrotic",
+        "Description": "Damage dealt by decaying energy, undeath, and soul-withering magic.",
+        "Version": 1
+      },
+      {
+        "Id": "f1000027-0000-4000-8000-000000000027",
+        "Name": "Radiant",
+        "Description": "Damage dealt by searing celestial light, holy energy, and focused positive force.",
+        "Version": 1
+      }
+    ]
+  }
+}
