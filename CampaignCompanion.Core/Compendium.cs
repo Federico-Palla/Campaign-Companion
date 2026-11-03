@@ -5,19 +5,20 @@ namespace CampaignCompanion.Core;
 
 public sealed class Compendium(CompendiumDefinition Definition)
 {
-    private CompendiumDefinition Definition { get; set; } = Definition;
+    private CompendiumDefinition Definition { get; init; } = Definition;
     private readonly List<CatalogEntry> _entries = [];
 
     public Guid Id => Definition.Id;
     public string Name => Definition.Name;
     public string Tag => Definition.Tag;
-    public int Version => Definition.Version;
+    public string Version => Definition.Version;
     public string Description => Definition.Description;
-    public IReadOnlyList<Guid> Dependencies => Definition.CompendiumDependencies;
+    public IReadOnlyList<CatalogDependency> Dependencies => [.. Definition.Dependencies.Select(x => new CatalogDependency() { Tag = x.Key, VersionRange = x.Value })];
 
     public List<CatalogEntry> All() => _entries;
     public CatalogEntry? FindById(Guid id) => _entries.FirstOrDefault(e => e.Id == id);
     public CatalogEntry? FindByName(string name) => _entries.FirstOrDefault(e => e.Name == name);
+    public CatalogEntry? FindByTag(string tag) => _entries.FirstOrDefault(e => e.Tag == tag);
     public void Add(CatalogEntry entry)
     {
         entry.CompendiumId = Id;
@@ -26,6 +27,30 @@ public sealed class Compendium(CompendiumDefinition Definition)
 
     public void Clear() => _entries.Clear();
     public IEnumerable<T> Of<T>() where T : CatalogEntry => _entries.OfType<T>();
+
+    public bool Validate()
+    {
+        var registry = new Dictionary<string, CatalogEntry>();
+        try
+        {
+            foreach (var entry in _entries)
+            {
+                if (registry.ContainsKey(entry.Tag))
+                    throw new InvalidOperationException($"Duplicated Tag Found: '{entry.Tag}'.");
+
+                registry[entry.Tag] = entry;
+            }
+
+
+
+            return true;
+        }
+        catch (Exception ex) 
+        { 
+            Console.WriteLine(ex.ToString());
+            return false;
+        }
+    }
 
     public override string ToString()
     {
@@ -45,9 +70,9 @@ public sealed class Compendium(CompendiumDefinition Definition)
         }
         else
         {
-            foreach (var dependencyId in Dependencies)
+            foreach (var dependency in Dependencies)
             {
-                sb.AppendLine($"  - {dependencyId}");
+                sb.AppendLine($"  - {dependency.Tag}:{dependency.VersionRange}");
             }
         }
         sb.AppendLine(new string('=', 50));

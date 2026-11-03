@@ -1,5 +1,6 @@
 ﻿using CampaignCompanion.Core;
 using CampaignCompanion.Core.Catalog;
+using CampaignCompanion.Core.Catalog.Spells;
 using System.Text.Json;
 
 namespace CampaignCompanion.App;
@@ -11,8 +12,8 @@ public class CompendiumManager
     // Fast O(1) lookup HashSet for enabled entries
     public HashSet<CatalogEntry> Entries = [];
 
-    // Track enabled compendium IDs to prevent redundant work and circular dependency loops
-    public HashSet<Guid> EnabledCompendiaIds = [];
+    // Track enabled compendium Tags to prevent redundant work and circular dependency loops
+    public HashSet<string> EnabledCompendia = [];
 
     public void LoadCompendiaFromLocalJson()
     {
@@ -52,59 +53,40 @@ public class CompendiumManager
                 var categoryElement = property.Value;
 
                 // Parse Abilities if present
-                if (categoryElement.TryGetProperty("Abilities", out var abilitiesElement))
-                {
-                    var abilities = JsonSerializer.Deserialize<List<AbilityDefinition>>(abilitiesElement.GetRawText(), options);
-                    if (abilities != null)
-                    {
-                        foreach (var ability in abilities) compendium.Add(ability);
-                    }
-                }
-
+                compendium.AddFromJSONListItem<AbilityDefinition>("Abilities", categoryElement, options);
                 // Parse Skills if present
-                if (categoryElement.TryGetProperty("Skills", out var skillsElement))
-                {
-                    var skills = JsonSerializer.Deserialize<List<SkillDefinition>>(skillsElement.GetRawText(), options);
-                    if (skills != null)
-                    {
-                        foreach (var skill in skills) compendium.Add(skill);
-                    }
-                }
-
+                compendium.AddFromJSONListItem<SkillDefinition>("Skills", categoryElement, options);
                 // Parse DamageTypes if present
-                if (categoryElement.TryGetProperty("DamageTypes", out var damageTypesElement))
-                {
-                    var damageTypes = JsonSerializer.Deserialize<List<DamageTypeDefinition>>(damageTypesElement.GetRawText(), options);
-                    if (damageTypes != null)
-                    {
-                        foreach (var damageType in damageTypes) compendium.Add(damageType);
-                    }
-                }
+                compendium.AddFromJSONListItem<DamageTypeDefinition>("DamageTypes", categoryElement, options);
+                // Parse SpellSchools if present
+                compendium.AddFromJSONListItem<SpellcastingSchoolDefinition>("SpellSchools", categoryElement, options);
+                // Parse Spells if present
+                compendium.AddFromJSONListItem<SpellDefinition>("Spells", categoryElement, options);
             }
 
             Compendia.Add(compendium);
         }
     }
 
-    public void TryEnableCompendiumById(Guid id)
+    public void EnableCompendiumByTag(string tag)
     {
         // Avoid reprocessing if already enabled
-        if (EnabledCompendiaIds.Contains(id)) return;
+        if (EnabledCompendia.Contains(tag)) return;
 
         try
         {
-            Compendium? selected = Compendia.FirstOrDefault(c => c.Id == id)
-                                   ?? throw new Exception($"Unable to find Compendium with ID: {id}");
+            Compendium? selected = Compendia.FirstOrDefault(c => c.Tag == tag)
+                                   ?? throw new Exception($"Unable to find Compendium with ID: {tag}");
 
             // Recursively enable all dependencies first
             foreach (var dependency in selected.Dependencies)
             {
-                TryEnableCompendiumById(dependency);
+                EnableCompendiumByTag(dependency.Tag);
             }
 
             // UnionWith adds all entries efficiently into the HashSet without duplicates
             Entries.UnionWith(selected.All());
-            EnabledCompendiaIds.Add(id);
+            EnabledCompendia.Add(tag);
         }
         catch (Exception ex)
         {

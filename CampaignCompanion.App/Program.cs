@@ -6,8 +6,8 @@ using System.Text.Json;
 CompendiumManager manager = new CompendiumManager();
 manager.LoadCompendiaFromLocalJson();
 
-//manager.TryEnableCompendiumById(new Guid("7bb94f11-1234-4b5a-9c7e-8a9b0c1d2e99")); 
-manager.TryEnableCompendiumById(new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa6")); 
+manager.EnableCompendiumByTag("core"); 
+//manager.EnableCompendiumById(new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa6")); 
 
 return;
 

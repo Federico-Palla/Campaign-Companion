@@ -5,21 +5,26 @@ namespace CampaignCompanion.Core.Catalog;
 /// <summary>
 /// Defines a Character's specific Ability, like for example Strength or Intelligence
 /// </summary>
-public sealed record AbilityDefinition : CatalogEntry;
+public sealed class AbilityDefinition : CatalogEntry;
 
 /// <summary>
 /// Defines a Character's specific Skill, like for example Perception or Stealth. It requires
 /// a link to an already defined Ability
 /// </summary>
-public sealed record SkillDefinition : CatalogEntry
+public sealed class SkillDefinition : CatalogEntry
 {
-    public required Guid Attribute { get; init; }
+    public required string Attribute { get; init; }
+
+    public override bool Validate()
+    {
+        return Dependencies.ContainsKey(Attribute);
+    }
 }
 
 /// <summary>
 /// Defines a type of Damage that can be dealt, i.e Slashing or Fire Damage
 /// </summary>
-public sealed record DamageTypeDefinition : CatalogEntry;
+public sealed class DamageTypeDefinition : CatalogEntry;
 
 /// <summary>
 /// A bonus is defined by a flat value + rolling a number of a certain dice (optional). 

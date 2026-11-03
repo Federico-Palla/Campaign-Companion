@@ -1,8 +1,8 @@
 ﻿namespace CampaignCompanion.Core.Catalog.Feats;
 
-public sealed record FeatCategoryDefinition : CatalogEntry;
+public sealed class FeatCategoryDefinition : CatalogEntry;
 
-public record FeatDefinition : CatalogEntry
+public class FeatDefinition : CatalogEntry
 {
     public required FeatCategoryDefinition Category { get; set; }
     //TODO

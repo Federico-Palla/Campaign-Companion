@@ -3,7 +3,7 @@ using CampaignCompanion.Core.Catalog.Equipment;
 
 namespace CampaignCompanion.Core.Catalog.Classes;
 
-public record ClassDefinition : CatalogEntry
+public class ClassDefinition : CatalogEntry
 {
     //Core Traits
     public required AbilityDefinition PrimaryAbility { get; set; }
