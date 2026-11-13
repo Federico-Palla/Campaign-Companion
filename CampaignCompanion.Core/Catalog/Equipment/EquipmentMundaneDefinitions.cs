@@ -15,11 +15,28 @@ public sealed class ToolDefinition : MundaneItemDefinition
     public required string Utilize { get; set; }
     public IReadOnlyList<string> CraftableItems { get; set; } = [];
 
-    public override bool Validate()
+    public override bool Validate(out string errorMessage)
     {
-        return Dependencies.ContainsKey(Category)
-            && Dependencies.ContainsKey(Ability)
-            && CraftableItems.All(item => Dependencies.ContainsKey(item));
+        errorMessage = string.Empty;
+        if (!Dependencies.ContainsKey(Category))
+        {
+            errorMessage = "Invalid tool category specified.";
+            return false;
+        }
+
+        if (!Dependencies.ContainsKey(Ability))
+        {
+            errorMessage = "Invalid ability specified.";
+            return false;
+        }
+
+        if (!CraftableItems.All(item => Dependencies.ContainsKey(item)))
+        {
+            errorMessage = "Invalid craftable item specified.";
+            return false;
+        }
+
+        return true;
     }
 }
 
@@ -34,9 +51,16 @@ public sealed class ArmorDefinition : MundaneItemDefinition
     public int StregthRequirement { get; set; } = 0;
     public bool StealthDisadvantage { get; set; } = false;
 
-    public override bool Validate()
+    public override bool Validate(out string errorMessage)
     {
-        return Dependencies.ContainsKey(Category);
+        errorMessage = string.Empty;
+        if (!Dependencies.ContainsKey(Category))
+        {
+            errorMessage = "Invalid armor category specified.";
+            return false;
+        }
+
+        return true;
     }
 }
 
@@ -57,10 +81,22 @@ public sealed class WeaponDefinition : MundaneItemDefinition
     public required DiceRoll Damage { get; set; }
     public bool IsRanged { get; set; } = false;
 
-    public override bool Validate()
+    public override bool Validate(out string errorMessage)
     {
-        return Dependencies.ContainsKey(Category)
-            && WeaponProperties.All(item => Dependencies.ContainsKey(item.Property));
+        errorMessage = string.Empty;
+        if (!Dependencies.ContainsKey(Category))
+        {
+            errorMessage = "Invalid weapon category specified.";
+            return false;
+        }
+
+        if (!WeaponProperties.All(item => Dependencies.ContainsKey(item.Property)))
+        {
+            errorMessage = "Invalid weapon property specified.";
+            return false;
+        }
+
+        return true;
     }
 }
 
@@ -71,9 +107,16 @@ public sealed class CreatureDefinition : MundaneItemDefinition
     public int CarryCapacity { get; set; } = 0; 
     public string? Barding { get; set; }
 
-    public override bool Validate()
+    public override bool Validate(out string errorMessage)
     {
-        return string.IsNullOrEmpty(Barding) || Dependencies.ContainsKey((string)Barding);
+        errorMessage = string.Empty;
+        if (!string.IsNullOrEmpty(Barding) && !Dependencies.ContainsKey((string)Barding))
+        {
+            errorMessage = "Invalid barding specified.";
+            return false;
+        }
+
+        return true;
     }
 }
 

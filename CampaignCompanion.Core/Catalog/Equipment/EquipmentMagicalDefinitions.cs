@@ -13,9 +13,22 @@ public class MagicalItemDefinition : ItemDefinition
     public string? BaseItem { get; init; }
     public List<MagicalPropertyDefinition> MagicalProperties { get; set; } = [];
 
-    public override bool Validate()
+    public override bool Validate(out string errorMessage)
     {
-        return Dependencies.ContainsKey(Rarity) && (string.IsNullOrEmpty(BaseItem) || Dependencies.ContainsKey(BaseItem));
+        errorMessage = string.Empty;
+        if (!Dependencies.ContainsKey(Rarity))
+        {
+            errorMessage = "Invalid rarity specified.";
+            return false;
+        }
+
+        if (!string.IsNullOrEmpty(BaseItem) && !Dependencies.ContainsKey(BaseItem))
+        {
+            errorMessage = "Invalid base item specified.";
+            return false;
+        }
+
+        return true;
     }
 }
 
