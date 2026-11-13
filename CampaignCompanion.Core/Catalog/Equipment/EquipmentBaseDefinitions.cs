@@ -19,8 +19,24 @@ public class ItemDefinition : CatalogEntry
     public required int Weight { get; init; }
     public required string Type { get; init; }
 
-    public override bool Validate()
+    public override bool Validate(out string errorMessage)
     {
-        return Dependencies.ContainsKey(Type) && Cost >= 0 && Weight >= 0;
+        errorMessage = string.Empty;
+        if (!Dependencies.ContainsKey(Type))
+        {
+            errorMessage = $"Invalid Type: '{Type}' is not listed as a dependency.";
+            return false;
+        }
+        if (Cost < 0)
+        {
+            errorMessage = $"Invalid Cost: '{Cost}' is negative.";
+            return false;
+        }
+        if (Weight < 0)
+        {
+            errorMessage = $"Invalid Weight: '{Weight}' is negative.";
+            return false;
+        }
+        return true;
     }
 }

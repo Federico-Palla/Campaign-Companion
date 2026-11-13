@@ -38,10 +38,23 @@ public sealed class Compendium(CompendiumDefinition Definition)
                 if (registry.ContainsKey(entry.Tag))
                     throw new InvalidOperationException($"Duplicated Tag Found: '{entry.Tag}'.");
 
+                if(!entry.Validate(out string errorMessage))
+                    throw new InvalidOperationException($"Invalid Entry Found: '{entry.Tag}': {errorMessage}");
+
+                //should never happen
+                if(entry.CompendiumId != Id)
+                    throw new InvalidOperationException($"Invalid CompendiumId for Entry '{entry.Tag}': Expected '{Id}', Found '{entry.CompendiumId}'.");
+
+                foreach(var dependency in entry.Dependencies)
+                {
+                    if (!Dependencies.Any(d => d.Tag == dependency.Key))
+                        throw new InvalidOperationException($"Invalid Dependency Found: '{entry.Tag}' depends on '{dependency.Key}' which is not listed as a dependency of the Compendium.");
+
+                    //for now, we will not validate the version range of the dependency, but we could add that in the future if needed
+                }
+
                 registry[entry.Tag] = entry;
             }
-
-
 
             return true;
         }

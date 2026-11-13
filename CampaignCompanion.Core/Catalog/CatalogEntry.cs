@@ -13,7 +13,11 @@ public abstract class CatalogEntry
     public Guid CompendiumId { get; set; }
     public required Dictionary<string, string> Dependencies { get; init; } = [];
 
-    public virtual bool Validate() => true;
+    public virtual bool Validate(out string errorMessage)
+    {
+        errorMessage = string.Empty;
+        return true;
+    }
 }
 
 public readonly record struct CatalogDependency

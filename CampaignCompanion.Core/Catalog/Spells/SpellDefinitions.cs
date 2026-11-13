@@ -24,8 +24,14 @@ public class SpellDefinition : CatalogEntry
     public string SpellUpgradeLabel { get; set; } = string.Empty;
     public string SpellUpgradeDescription { get; set; } = string.Empty;
 
-    public override bool Validate()
+    public override bool Validate(out string errorMessage)
     {
-        return Dependencies.ContainsKey(SpellSchool);
+        errorMessage = string.Empty;
+        if (!Dependencies.ContainsKey(SpellSchool))
+        {
+            errorMessage = $"Invalid Spell School: '{SpellSchool}' is not listed as a dependency.";
+            return false;
+        }
+        return true;
     }
 }

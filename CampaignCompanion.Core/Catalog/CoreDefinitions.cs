@@ -15,9 +15,15 @@ public sealed class SkillDefinition : CatalogEntry
 {
     public required string Attribute { get; init; }
 
-    public override bool Validate()
+    public override bool Validate(out string errorMessage)
     {
-        return Dependencies.ContainsKey(Attribute);
+        errorMessage = string.Empty;
+        if (!Dependencies.ContainsKey(Attribute))
+        {
+            errorMessage = $"Invalid Attribute: '{Attribute}' is not listed as a dependency.";
+            return false;
+        }
+        return true;
     }
 }
 
