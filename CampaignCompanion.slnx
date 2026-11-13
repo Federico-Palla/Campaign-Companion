@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="CampaignCompanion.App/CampaignCompanion.App.csproj" />
+  <Project Path="CampaignCompanion.Core/CampaignCompanion.Core.csproj" />
+
+</Solution>
