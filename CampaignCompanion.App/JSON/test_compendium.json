@@ -10,7 +10,6 @@
     "LastUpdatedAt": "2026-06-07T15:30:00Z"
   },
   "Core": {
-
     "Abilities": [
       {
         "Id": "b82b94f1-1234-4b5a-9c7e-8a9b0c1d2e3f",
@@ -342,16 +341,89 @@
         "Version": "1.0.0",
         "Dependencies": {}
       }
+    ],
+    "WeaponCategories": [
+      {
+        "Id": "f1000227-0000-4000-8000-000000000227",
+        "Name": "Simple",
+        "Tag": "core:weapon-category:simple",
+        "Description": "Simple weapons are designed to be used by anyone with low skills",
+        "Version": "1.0.0",
+        "Dependencies": {}
+      },
+      {
+        "Id": "f1000228-0000-4000-8000-000000000228",
+        "Name": "Martial",
+        "Tag": "core:weapon-category:martial",
+        "Description": "Martial weapons are designed to be used by professionals",
+        "Version": "1.0.0",
+        "Dependencies": {}
+      }
+    ],
+    "ArmorCategories": [
+      {
+        "Id": "f1000327-0000-4000-8000-000000000327",
+        "Name": "Light",
+        "Tag": "core:armor-category:light",
+        "Description": "Light armor is simple and offers great mobility",
+        "Version": "1.0.0",
+        "Dependencies": {}
+      },
+      {
+        "Id": "f1000328-0000-4000-8000-000000000328",
+        "Name": "Medium",
+        "Tag": "core:armor-category:medium",
+        "Description": "Medium armor offers a good compromise between mobility and protection",
+        "Version": "1.0.0",
+        "Dependencies": {}
+      },
+      {
+        "Id": "f1000330-0000-4000-8000-000000000330",
+        "Name": "Heavy",
+        "Tag": "core:armor-category:heavy",
+        "Description": "Heavy armor offers the best possible protection",
+        "Version": "1.0.0",
+        "Dependencies": {}
+      },
+      {
+        "Id": "f1000329-0000-4000-8000-000000000329",
+        "Name": "Shield",
+        "Tag": "core:armor-category:shield",
+        "Description": "Shields are a great addition for self defence",
+        "Version": "1.0.0",
+        "Dependencies": {}
+      }
+    ],
+
+    "Dices": [
+      {
+        "Id": "f1000125-0000-4000-8000-000000000125",
+        "Name": "D12",
+        "Tag": "core:die:d12",
+        "Description": "A Die with 12 faces",
+        "Version": "1.0.0",
+        "Dependencies": {},
+        "Faces": 12
+      }
     ]
   },
   "Spellcasting": {
-
     "SpellSchools": [
       {
         "Id": "f1000028-0000-4000-8000-000000000028",
         "Name": "Evocation",
         "Tag": "core:spellschool:evocation",
         "Description": "School of magic focused on creating magical energy or objects to deal damage or control the battlefield.",
+        "Version": "1.0.0",
+        "Dependencies": {}
+      }
+    ],
+    "SpellComponents": [
+      {
+        "Id": "f1000030-0000-4000-8000-000000000030",
+        "Name": "Verbal",
+        "Tag": "core:spellcomponent:verbal",
+        "Description": "Essential for spells that require spoken words to be cast.",
         "Version": "1.0.0",
         "Dependencies": {}
       }
@@ -364,7 +436,8 @@
         "Description": "You hurl a mote of fire at a creature or an object within range. Make a ranged spell attack against the target. On a hit, the target takes 1d10 Fire damage. A flammable object hit by this spell starts burning if it isn’t being worn or carried.",
         "Version": "1.0.0",
         "Dependencies": {
-          "core:spellschool:evocation": "^1.0.0"
+          "core:spellschool:evocation": "^1.0.0",
+          "core:spellcomponent:verbal": "1.0.0"
         },
         "SpellSchool": "core:spellschool:evocation",
         "Level": 0,
@@ -375,8 +448,160 @@
         "Duration": 0,
         "HasConcentration": false,
         "Ritual": false,
+        "Components": [ "core:spellcomponent:verbal" ],
         "SpellUpgradeLabel": "Cantrip upgrade",
         "SpellUpgradeDescription": "The damage increases by 1d10 when you reach levels 5 (2d10), 11 (3d10), and 17 (4d10)."
+      }
+    ],
+    "Classes": [
+      {
+        "Id": "f1000060-0000-4000-8000-000000000060",
+        "Name": "Barbarian",
+        "Tag": "core:class:barbarian",
+        "Description": "Barbarians are mighty warriors who are powered by primal forces of the multiverse that manifest as a Rage. More than a mere emotion—and not limited to anger—this Rage is an incarnation of a predator’s ferocity, a storm's fury, and a sea's turmoil. etc etc",
+        "Version": "1.0.0",
+        "Dependencies": {
+          "core:ability:strength": "^1.0.0",
+          "core:ability:constitution": "^1.0.0"
+        },
+        "PrimaryAbility": "core:ability:strength",
+        "HitPointDie": "core:die:d12",
+        "SavingThrowProficiencies": [ "core:ability:strength", "core:ability:constitution" ],
+        "SkillProficenciesList": [ "core:skill:animal-handling", "core:skill:athletics", "core:skill:intimidation", "core:skill:nature", "core:skill:perception", "core:skill:survival" ],
+        "SkillProficienciesCount": 2,
+        "WeaponProficiencies": [ "core:weapon-category:simple", "core:weapon-category:martial" ],
+        "ToolProficiencies": [],
+        "ArmorTrainingList": [ "core:armor-category:light", "core:armor-category:medium", "core:armor-category:shield" ],
+        "StartingEquipment": [],
+        "Features": []
+      }
+    ],
+    "ClassFeatures": [
+      {
+        "Id": "f1000560-0000-4000-8000-000000000560",
+        "Name": "Rage",
+        "Tag": "core:class-feature:rage",
+        "Description": "Barbarians are mighty warriors who are powered by primal forces of the multiverse that manifest as a Rage. More than a mere emotion—and not limited to anger—this Rage is an incarnation of a predator’s ferocity, a storm's fury, and a sea's turmoil. etc etc",
+        "Version": "1.0.0",
+        "Dependencies": {
+          "core:class-feature-rule:damage-resistance": "^1.0.0",
+          "core:class-feature-rule:rage-damage": "^1.0.0",
+          "core:class-feature-rule:strength-advantage": "^1.0.0",
+          "core:class-feature-rule:rno-concentration-or-spells": "^1.0.0",
+          "core:class-feature-rule:rage-duration": "^1.0.0"
+        },
+        "Level": 1,
+        "Rules": [
+          "core:class-feature-rule:damage-resistance",
+          "core:class-feature-rule:rage-damage",
+          "core:class-feature-rule:strength-advantage",
+          "core:class-feature-rule:no-concentration-or-spells",
+          "core:class-feature-rule:rage-duration"
+        ],
+        "Grants": [
+          {
+            "Kind": "Resource",
+            "ResourceTag": "core:resource:rage",
+            "MaxUses": {
+              "Kind": "ClassLevel",
+              "Steps": [
+                {
+                  "FromLevel": 1,
+                  "Value": 2
+                },
+                {
+                  "FromLevel": 3,
+                  "Value": 3
+                },
+                {
+                  "FromLevel": 6,
+                  "Value": 4
+                },
+                {
+                  "FromLevel": 12,
+                  "Value": 5
+                },
+                {
+                  "FromLevel": 17,
+                  "Value": 6
+                }
+              ]
+            },
+            "Recharge": [
+              {
+                "RestTag": "core:rest:short",
+                "Recovered": {
+                  "Kind": "Fixed",
+                  "Value": 1
+                }
+              },
+              { "RestTag": "core:rest:long" }
+            ]
+          }
+        ]
+      }
+    ],
+    "ClassFeatureRules": [
+      {
+        "Id": "f1000660-0000-4000-8000-000000000660",
+        "Name": "Damage Resistance",
+        "Tag": "core:class-feature-rule:damage-resistance",
+        "Description": "You have Resistance to Bludgeoning, Piercing, and Slashing damage.",
+        "Version": "1.0.0",
+        "Dependencies": {}
+      },
+      {
+        "Id": "f1000660-0000-4000-8000-000000000660",
+        "Name": "Rage Damage",
+        "Tag": "core:class-feature-rule:rage-damage",
+        "Description": "When you make an attack using Strength—with either a weapon or an Unarmed Strike—and deal damage to the target, you gain a bonus to the damage that increases as you gain levels as a Barbarian, as shown in the Rage Damage column of the Barbarian Features table.",
+        "Version": "1.0.0",
+        "Dependencies": {},
+        "Progression": {
+          "Kind": "Value",
+          "Name": "Rage Damage",
+          "Amount": {
+            "Kind": "ClassLevel",
+            "Steps": [
+              {
+                "FromLevel": 1,
+                "Value": 2
+              },
+              {
+                "FromLevel": 9,
+                "Value": 3
+              },
+              {
+                "FromLevel": 16,
+                "Value": 4
+              }
+            ]
+          }
+        }
+      },
+      {
+        "Id": "f1000660-0000-4000-8000-000000000660",
+        "Name": "Strength Advantage",
+        "Tag": "core:class-feature-rule:strength-advantage",
+        "Description": "You have Advantage on Strength checks and Strength saving throws.",
+        "Version": "1.0.0",
+        "Dependencies": {}
+      },
+      {
+        "Id": "f1000660-0000-4000-8000-000000000660",
+        "Name": "No Concentration or Spells",
+        "Tag": "core:class-feature-rule:no-concentration-or-spells",
+        "Description": "You can't maintain Concentration, and you can't cast spells.",
+        "Version": "1.0.0",
+        "Dependencies": {}
+      },
+      {
+        "Id": "f1000660-0000-4000-8000-000000000660",
+        "Name": "Duration",
+        "Tag": "core:class-feature-rule:rage-duration",
+        "Description": "The Rage lasts until the end of your next turn, and it ends early if you don Heavy armor or have the Incapacitated condition.",
+        "Version": "1.0.0",
+        "Dependencies": {}
       }
     ]
   }

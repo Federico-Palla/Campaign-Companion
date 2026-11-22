@@ -1,17 +1,20 @@
 ﻿using CampaignCompanion.Core.Catalog.Enums;
-using CampaignCompanion.Core.Catalog.Equipment;
 
 namespace CampaignCompanion.Core.Catalog.Classes;
 
 public class ClassDefinition : CatalogEntry
 {
     //Core Traits
-    public required AbilityDefinition PrimaryAbility { get; set; }
+    public required string PrimaryAbility { get; set; }
     public required DiceSizeEnum HitPointDie { get; set; }
-    public required IReadOnlyList<AbilityDefinition> SavingThrowProficencies { get; set; }
-    public required IReadOnlyList<SkillDefinition> SkillProficenciesList { get; set; }
-    public required IReadOnlyList<WeaponCategoryDefinition> WeaponProficiencies {  get; set; }
-    public required IReadOnlyList<ArmorCategoryDefinition> ArmorTrainingList { get; set; }
+    public required IReadOnlyList<string> SavingThrowProficencies { get; set; }
+    public required IReadOnlyList<string> SkillProficenciesList { get; set; }
+    public int SkillProficienciesCount { get; set; } = 2;
+    public required IReadOnlyList<string> WeaponProficiencies {  get; set; }
+    public required IReadOnlyList<string> ArmorTrainingList { get; set; }
+    public required IReadOnlyList<string> ToolProficiencies { get; set; }
 
     // class features
+
+    public IReadOnlyList<string> Features { get; set; } = [];
 }

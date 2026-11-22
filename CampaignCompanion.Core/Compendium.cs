@@ -47,7 +47,7 @@ public sealed class Compendium(CompendiumDefinition Definition)
 
                 foreach(var dependency in entry.Dependencies)
                 {
-                    if (!Dependencies.Any(d => d.Tag == dependency.Key))
+                    if (!_entries.Select(x => x.Tag).Any(d => d == dependency.Key))
                         throw new InvalidOperationException($"Invalid Dependency Found: '{entry.Tag}' depends on '{dependency.Key}' which is not listed as a dependency of the Compendium.");
 
                     //for now, we will not validate the version range of the dependency, but we could add that in the future if needed

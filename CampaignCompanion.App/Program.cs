@@ -9,6 +9,11 @@ manager.LoadCompendiaFromLocalJson();
 manager.EnableCompendiumByTag("core"); 
 //manager.EnableCompendiumById(new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa6")); 
 
+foreach(string tag in manager.EnabledCompendia)
+{
+    manager.Compendia.FirstOrDefault(x => x.Tag == tag)!.Validate();
+}
+
 return;
 
 string basePath = AppContext.BaseDirectory;
