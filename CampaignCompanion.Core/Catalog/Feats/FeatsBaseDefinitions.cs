@@ -4,6 +4,7 @@ public sealed class FeatCategoryDefinition : CatalogEntry;
 
 public class FeatDefinition : CatalogEntry
 {
-    public required FeatCategoryDefinition Category { get; set; }
-    //TODO
+    public required string Category { get; set; }
+    public IReadOnlyList<string> Grants { get; set; } = [];
+    public IReadOnlyList<string> Rules { get; set; } = [];
 }
