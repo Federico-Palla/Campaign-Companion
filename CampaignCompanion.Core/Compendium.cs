@@ -3,17 +3,18 @@ using System.Text;
 
 namespace CampaignCompanion.Core;
 
-public sealed class Compendium(CompendiumDefinition Definition)
+public sealed class Compendium(CompendiumDefinition definition)
 {
-    private CompendiumDefinition Definition { get; init; } = Definition;
     private readonly List<CatalogEntry> _entries = [];
 
-    public Guid Id => Definition.Id;
-    public string Name => Definition.Name;
-    public string Tag => Definition.Tag;
-    public string Version => Definition.Version;
-    public string Description => Definition.Description;
-    public IReadOnlyList<CatalogDependency> Dependencies => [.. Definition.Dependencies.Select(x => new CatalogDependency() { Tag = x.Key, VersionRange = x.Value })];
+    public Guid Id => definition.Id;
+    public string Name => definition.Name;
+    public string Tag => definition.Tag;
+    public string Version => definition.Version;
+    public string Description => definition.Description;
+    public IReadOnlyList<CatalogDependency> Dependencies => [.. definition.Dependencies.Select(x => new CatalogDependency() { Tag = x.Key, VersionRange = x.Value })];
+    public object CreationDate => definition.CreationDate;
+    public object LastUpdatedAt => definition.LastUpdatedAt;
 
     public List<CatalogEntry> All() => _entries;
     public CatalogEntry? FindById(Guid id) => _entries.FirstOrDefault(e => e.Id == id);
@@ -70,11 +71,11 @@ public sealed class Compendium(CompendiumDefinition Definition)
         var sb = new StringBuilder();
 
         sb.AppendLine($"=== Compendium: {Name} (v{Version}) ===");
-        sb.AppendLine($"ID           : {Definition.Id}");
+        sb.AppendLine($"ID           : {Id}");
         sb.AppendLine($"Tag          : {(string.IsNullOrEmpty(Tag) ? "(None)" : Tag)}");
         sb.AppendLine($"Description  : {(string.IsNullOrEmpty(Description) ? "(No description)" : Description)}");
-        sb.AppendLine($"Created      : {Definition.CreationDate:yyyy-MM-dd HH:mm:ss UTC}");
-        sb.AppendLine($"Last Updated : {Definition.LastUpdatedAt:yyyy-MM-dd HH:mm:ss UTC}");
+        sb.AppendLine($"Created      : {CreationDate:yyyy-MM-dd HH:mm:ss UTC}");
+        sb.AppendLine($"Last Updated : {LastUpdatedAt:yyyy-MM-dd HH:mm:ss UTC}");
         sb.AppendLine("Dependencies :");
 
         if (Dependencies.Count == 0)

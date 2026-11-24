@@ -1,12 +1,12 @@
 ﻿using CampaignCompanion.Core.Catalog.Enums;
 
-namespace CampaignCompanion.Core.Catalog.Classes
+namespace CampaignCompanion.Core.Catalog.Feats
 {
     public class GrantDefinition : CatalogEntry;
 
     public class AbilityScoreGrantDefinition : GrantDefinition
     {
-        public IReadOnlyList<string> AbilityChoiceLIst { get; set; } = [];
+        public IReadOnlyList<string> AbilityChoiceList { get; set; } = [];
         public int MaxAffectedAbilities { get; set; }
         public int ScoreChange { get; set; }
         public int ScoreMax { get; set; }
@@ -26,6 +26,9 @@ namespace CampaignCompanion.Core.Catalog.Classes
         public string RechargeRules { get; set; } = string.Empty;
     }
 
+    /// <summary>
+    /// covers the case where you are asked to choose a said number of spells from a set of class spell lists, 
+    /// </summary>
     public class MultiSpellChoiceGrantDefinition : GrantDefinition
     {
         public int SpellLevel { get; set; }
@@ -34,16 +37,21 @@ namespace CampaignCompanion.Core.Catalog.Classes
         public IReadOnlyList<string> SpellcastingAbilityChoice { get; set; } = [];
     }
 
+    public class SpellGrantDefinition : GrantDefinition
+    {
+        public int SpellLevel { get; set; }
+        public IReadOnlyList<string> AlwaysPreparedSpells { get; set; } = [];
+    }
+
+    /// <summary>
+    /// for example like you do for eldritch invocations, fighting styles e masteries etc, you have a pool of features to choose from and a said number of them
+    /// </summary>
     public class FeatureChoiceGrantDefinition : GrantDefinition
     {
         public required string PoolTag { get; init; }            // es. "core:pool:eldritch-invocation"
         public IReadOnlyList<Step> Count { get; init; } = [];    // quante scelte, per livello di classe
     }
 
-    public class SpellGrantDefinition : GrantDefinition
-    {
-        public string AlwaysPreparedSpell { get; set; } = string.Empty;
-    }
 
     #region Utils
     public sealed class Step
