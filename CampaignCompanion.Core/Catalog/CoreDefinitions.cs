@@ -5,7 +5,10 @@ namespace CampaignCompanion.Core.Catalog;
 /// <summary>
 /// Defines a Character's specific Ability, like for example Strength or Intelligence
 /// </summary>
-public sealed class AbilityDefinition : CatalogEntry;
+public sealed class AbilityDefinition : CatalogEntry
+{
+    public new const string SectionName = "Abilities";
+}
 
 /// <summary>
 /// Defines a Character's specific Skill, like for example Perception or Stealth. It requires
@@ -13,6 +16,8 @@ public sealed class AbilityDefinition : CatalogEntry;
 /// </summary>
 public sealed class SkillDefinition : CatalogEntry
 {
+    public new const string SectionName = "Skills";
+
     public required string Attribute { get; init; }
 
     public override bool Validate(out string errorMessage)
@@ -30,7 +35,10 @@ public sealed class SkillDefinition : CatalogEntry
 /// <summary>
 /// Defines a type of Damage that can be dealt, i.e Slashing or Fire Damage
 /// </summary>
-public sealed class DamageTypeDefinition : CatalogEntry;
+public sealed class DamageTypeDefinition : CatalogEntry
+{
+    public new const string SectionName = "DamageTypes";
+}
 
 /// <summary>
 /// A bonus is defined by a flat value + rolling a number of a certain dice (optional). 

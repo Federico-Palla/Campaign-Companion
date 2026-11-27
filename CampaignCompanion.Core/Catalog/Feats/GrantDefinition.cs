@@ -2,9 +2,14 @@
 
 namespace CampaignCompanion.Core.Catalog.Feats
 {
-    public class GrantDefinition : CatalogEntry;
+    public class GrantDefinition : CatalogEntry
+    {
+        public new const string SectionName = "Grants";
+    }
     public class AbilityScoreGrantDefinition : GrantDefinition
     {
+        public new const string SectionName = "AbilityScoreGrants";
+
         public IReadOnlyList<string> AbilityChoiceList { get; set; } = [];
         public int MaxAffectedAbilities { get; set; }
         public int ScoreChange { get; set; }
@@ -13,11 +18,15 @@ namespace CampaignCompanion.Core.Catalog.Feats
 
     public class ProficiencyGrantDefinition : GrantDefinition
     {
+        public new const string SectionName = "ProficiencyGrants";
+
         public IReadOnlyList<string> Skills { get; set; } = [];
     }
 
     public class ResourceGrantDefinition : GrantDefinition
     {
+        public new const string SectionName = "ResourceGrants";
+
         public FeatureProgressionEnum Progression { get; set; }
         public IReadOnlyList<Step> MaxUsages { get; set; } = [];
 
@@ -30,6 +39,8 @@ namespace CampaignCompanion.Core.Catalog.Feats
     /// </summary>
     public class MultiSpellChoiceGrantDefinition : GrantDefinition
     {
+        public new const string SectionName = "MultiSpellChoiceGrants";
+
         public int SpellLevel { get; set; }
         public int SpellCount { get; set; } = 1;
         public IReadOnlyList<string> ClassSpellLists { get; set; } = [];
@@ -38,6 +49,8 @@ namespace CampaignCompanion.Core.Catalog.Feats
 
     public class SpellGrantDefinition : GrantDefinition
     {
+        public new const string SectionName = "SpellGrants";
+
         public int SpellLevel { get; set; }
         public IReadOnlyList<string> AlwaysPreparedSpells { get; set; } = [];
     }
@@ -47,6 +60,8 @@ namespace CampaignCompanion.Core.Catalog.Feats
     /// </summary>
     public class FeatureChoiceGrantDefinition : GrantDefinition
     {
+        public new const string SectionName = "FeatureChoiceGrants";
+
         public required string PoolTag { get; init; }            // es. "core:pool:eldritch-invocation"
         public IReadOnlyList<Step> Count { get; init; } = [];    // quante scelte, per livello di classe
     }

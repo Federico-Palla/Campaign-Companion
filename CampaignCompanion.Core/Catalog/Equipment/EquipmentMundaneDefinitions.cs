@@ -2,15 +2,23 @@
 
 // TODO: adventurer's gear
 
-public class MundaneItemDefinition : ItemDefinition;
+public class MundaneItemDefinition : ItemDefinition
+{
+    public new const string SectionName = "MundaneItems";
+}
 
 /// <summary>
 /// I.e. Artisan Tools ot Musical Instrument
 /// </summary>
-public sealed class ToolCategoryDefinition : CatalogEntry;
+public sealed class ToolCategoryDefinition : CatalogEntry
+{
+    public new const string SectionName = "ToolCategories";
+}
 
 public sealed class ToolDefinition : MundaneItemDefinition
 {
+    public new const string SectionName = "Tools";
+
     public required string Category { get; set; }
     public required string Ability { get; set; }
     public required string Utilize { get; set; }
@@ -41,10 +49,15 @@ public sealed class ToolDefinition : MundaneItemDefinition
     }
 }
 
-public sealed class ArmorCategoryDefinition : CatalogEntry;
+public sealed class ArmorCategoryDefinition : CatalogEntry
+{
+    public new const string SectionName = "ArmorCategories";
+}
 
 public sealed class ArmorDefinition : MundaneItemDefinition
 {
+    public new const string SectionName = "Armors";
+
     public required string Category { get; set; }
     public required int BaseArmorClass { get; set; }
     public required int AdditionalModifier { get; set; }
@@ -66,10 +79,20 @@ public sealed class ArmorDefinition : MundaneItemDefinition
     }
 }
 
-public sealed class WeaponCategoryDefinition : CatalogEntry;
-public sealed class WeaponPropertyDefinition : CatalogEntry;
+public sealed class WeaponCategoryDefinition : CatalogEntry
+{
+    public new const string SectionName = "WeaponCategories";
+}
 
-public sealed class WeaponMasteryDefinition : CatalogEntry;
+public sealed class WeaponPropertyDefinition : CatalogEntry
+{
+    public new const string SectionName = "WeaponProperties";
+}
+
+public sealed class WeaponMasteryDefinition : CatalogEntry
+{
+    public new const string SectionName = "WeaponMasteries";
+}
 
 public sealed class WeaponPropertyUsageDefinition
 {
@@ -80,6 +103,8 @@ public sealed class WeaponPropertyUsageDefinition
 }
 public sealed class WeaponDefinition : MundaneItemDefinition
 {
+    public new const string SectionName = "Weapons";
+
     public required string Category { get; set; }
     public required IReadOnlyList<WeaponPropertyUsageDefinition> WeaponProperties { get; set; }
     public required DiceRoll Damage { get; set; }
@@ -104,9 +129,14 @@ public sealed class WeaponDefinition : MundaneItemDefinition
     }
 }
 
-public sealed class PoisonDefinition : MundaneItemDefinition;
+public sealed class PoisonDefinition : MundaneItemDefinition
+{
+    public new const string SectionName = "Poisons";
+}
 public sealed class CreatureDefinition : MundaneItemDefinition
 {
+    public new const string SectionName = "Creatures";
+
     public bool IsMount { get; set; } = false;
     public int CarryCapacity { get; set; } = 0; 
     public string? Barding { get; set; }

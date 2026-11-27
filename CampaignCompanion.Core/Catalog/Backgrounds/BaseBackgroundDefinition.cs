@@ -6,6 +6,8 @@ namespace CampaignCompanion.Core.Catalog.Backgrounds
 {
     public class BaseBackgroundDefinition : CatalogEntry
     {
+        public new const string SectionName = "Backgrounds";
+
         public required string BackgroundType { get; set; }
         public required IReadOnlyList<string> AbilityScores { get; set; }
         public int MaxSpendablePointsInAbilities { get; set; } = 2;

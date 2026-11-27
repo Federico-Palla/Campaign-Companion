@@ -5,6 +5,8 @@
 /// </summary>
 public abstract class CatalogEntry
 {
+    public const string SectionName = "CatalogEntry";
+
     public Guid Id { get; init; } = Guid.NewGuid();
     public required string Name { get; init; }
     public string Tag { get; set; } = string.Empty;

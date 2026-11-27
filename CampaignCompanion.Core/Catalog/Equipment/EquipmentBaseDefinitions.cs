@@ -3,18 +3,26 @@
 /// <summary>
 /// Defines a type of item in the Compendium, like Weapon or Tool
 /// </summary>
-public sealed class ItemTypeDefinition : CatalogEntry;
+public sealed class ItemTypeDefinition : CatalogEntry
+{
+    public new const string SectionName = "Types";
+}
 
 /// <summary>
 /// Defines an item Rarity, like Common or Legendary
 /// </summary>
-public sealed class ItemRarityDefinition : CatalogEntry;
+public sealed class ItemRarityDefinition : CatalogEntry
+{
+    public new const string SectionName = "Rarities";
+}
 
 /// <summary>
 /// A basic definition of an Item managed via the Compendium
 /// </summary>
 public class ItemDefinition : CatalogEntry
 {
+    public new const string SectionName = "Items";
+
     public required float Value { get; init; }
     public required int Weight { get; init; }
     public required string Type { get; init; }

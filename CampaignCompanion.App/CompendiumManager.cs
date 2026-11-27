@@ -1,6 +1,5 @@
 ﻿using CampaignCompanion.Core;
 using CampaignCompanion.Core.Catalog;
-using CampaignCompanion.Core.Catalog.Spells;
 using System.Text.Json;
 
 namespace CampaignCompanion.App;
@@ -62,19 +61,7 @@ public class CompendiumManager
                     continue;
 
                 var categoryElement = property.Value;
-
-                // Parse Abilities if present
-                compendium.AddFromJSONListItem<AbilityDefinition>("Abilities", categoryElement, options);
-                // Parse Skills if present
-                compendium.AddFromJSONListItem<SkillDefinition>("Skills", categoryElement, options);
-                // Parse DamageTypes if present
-                compendium.AddFromJSONListItem<DamageTypeDefinition>("DamageTypes", categoryElement, options);
-                // Parse SpellSchools if present
-                compendium.AddFromJSONListItem<SpellcastingSchoolDefinition>("SpellSchools", categoryElement, options);
-                // Parse SpellComponents if present
-                compendium.AddFromJSONListItem<SpellcastingComponentDefinition>("SpellComponents", categoryElement, options);
-                // Parse Spells if present
-                compendium.AddFromJSONListItem<SpellDefinition>("Spells", categoryElement, options);
+                compendium.AddFromJSONListItems(categoryElement, options);
             }
 
             Compendia.Add(compendium);
@@ -106,18 +93,7 @@ public class CompendiumManager
 
             var categoryElement = property.Value;
 
-            // Parse Abilities if present
-            compendium.AddFromJSONListItem<AbilityDefinition>("Abilities", categoryElement, options);
-            // Parse Skills if present
-            compendium.AddFromJSONListItem<SkillDefinition>("Skills", categoryElement, options);
-            // Parse DamageTypes if present
-            compendium.AddFromJSONListItem<DamageTypeDefinition>("DamageTypes", categoryElement, options);
-            // Parse SpellSchools if present
-            compendium.AddFromJSONListItem<SpellcastingSchoolDefinition>("SpellSchools", categoryElement, options);
-            // Parse SpellComponents if present
-            compendium.AddFromJSONListItem<SpellcastingComponentDefinition>("SpellComponents", categoryElement, options);
-            // Parse Spells if present
-            compendium.AddFromJSONListItem<SpellDefinition>("Spells", categoryElement, options);
+            compendium.AddFromJSONListItems(categoryElement, options);
         }
 
         Compendia.Add(compendium);

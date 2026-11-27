@@ -13,7 +13,7 @@ namespace CampaignCompanion.Core.Entities
 
     public class ItemEntity(Compendium compendium, ItemDefinition itemDefinition) : BaseEntity(compendium, itemDefinition)
     {
-        public int Cost => itemDefinition.Value;
+        public float Cost => itemDefinition.Value;
         public int Weight => itemDefinition.Weight;
 
     }

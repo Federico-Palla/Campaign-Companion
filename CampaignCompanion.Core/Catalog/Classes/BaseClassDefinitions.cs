@@ -4,6 +4,8 @@ namespace CampaignCompanion.Core.Catalog.Classes;
 
 public class ClassDefinition : CatalogEntry
 {
+    public new const string SectionName = "Classes";
+
     //Core Traits
     public required string PrimaryAbility { get; set; }
     public required DiceSizeEnum HitPointDie { get; set; }

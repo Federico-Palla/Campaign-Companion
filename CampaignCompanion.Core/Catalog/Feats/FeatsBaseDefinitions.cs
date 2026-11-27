@@ -1,9 +1,14 @@
 ﻿namespace CampaignCompanion.Core.Catalog.Feats;
 
-public sealed class FeatCategoryDefinition : CatalogEntry;
+public sealed class FeatCategoryDefinition : CatalogEntry
+{
+    public new const string SectionName = "FeatCategories";
+}
 
 public class FeatDefinition : CatalogEntry
 {
+    public new const string SectionName = "Feats";
+
     /// <summary>
     /// The Category of the feat, for example this can be an Origin Feat or a Class Feature
     /// </summary>
@@ -28,6 +33,8 @@ public class FeatDefinition : CatalogEntry
 
 public class ClassFeatDefinition : FeatDefinition
 {
+    public new const string SectionName = "ClassFeats";
+
     public required int Level { get; init; }
 }
 
@@ -36,7 +43,12 @@ public class ClassFeatDefinition : FeatDefinition
 /// </summary>
 public class ChoiceOptionFeatDefinition : ClassFeatDefinition
 {
+    public new const string SectionName = "ChoiceOptionFeats";
+
     public required string PoolTag { get; init; }
 }
 
-public class RuleDefinition : CatalogEntry;
+public class RuleDefinition : CatalogEntry
+{
+    public new const string SectionName = "Rules";
+}

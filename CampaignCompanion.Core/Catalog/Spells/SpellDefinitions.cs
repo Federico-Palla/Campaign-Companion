@@ -2,12 +2,20 @@
 
 namespace CampaignCompanion.Core.Catalog.Spells;
 
-public class SpellcastingSchoolDefinition : CatalogEntry;
+public class SpellcastingSchoolDefinition : CatalogEntry
+{
+    public new const string SectionName = "SpellSchools";
+}
 
-public sealed class SpellcastingComponentDefinition : CatalogEntry;
+public sealed class SpellcastingComponentDefinition : CatalogEntry
+{
+    public new const string SectionName = "SpellComponents";
+}
 
 public class SpellDefinition : CatalogEntry
 {
+    public new const string SectionName = "Spells";
+
     public required string SpellSchool {  get; set; }
     public required int Level { get; set; }
     public required ActionTypeEnum CastingTime { get; set; }

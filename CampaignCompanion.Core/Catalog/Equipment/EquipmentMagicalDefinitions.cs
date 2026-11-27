@@ -4,6 +4,8 @@ namespace CampaignCompanion.Core.Catalog.Equipment;
 
 public class MagicalItemDefinition : ItemDefinition
 {
+    public new const string SectionName = "MagicalItems";
+
     public required string Rarity { get; init; }
     public required bool Attunement { get; init; }
     public string AttunementRequirement { get; init; } = string.Empty;
@@ -34,6 +36,8 @@ public class MagicalItemDefinition : ItemDefinition
 
 public class MagicalPropertyDefinition : CatalogEntry
 {
+    public new const string SectionName = "MagicalProperties";
+
     public List<MagicalEffectDefinition> MagicalEffects { get; set; } = [];
 }
 
