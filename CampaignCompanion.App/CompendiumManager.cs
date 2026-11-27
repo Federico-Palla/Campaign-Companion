@@ -15,6 +15,17 @@ public class CompendiumManager
     // Track enabled compendium Tags to prevent redundant work and circular dependency loops
     public HashSet<string> EnabledCompendia = [];
 
+    public string CompendiaFolder { get; }
+
+    public CompendiumManager()
+    {
+        CompendiaFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Exports");
+        if (!Directory.Exists(CompendiaFolder))
+        {
+            Directory.CreateDirectory(CompendiaFolder);
+        }
+    }
+
     public void LoadCompendiaFromLocalJson()
     {
         string basePath = AppContext.BaseDirectory;
@@ -70,6 +81,48 @@ public class CompendiumManager
         }
     }
 
+    public void LoadCompendiumFromFile(string filePath)
+    {
+        string jsonString = File.ReadAllText(filePath);
+
+        using var doc = JsonDocument.Parse(jsonString);
+        var rootElement = doc.RootElement;
+
+        // 1. Parse Compendium Metadata
+        if (!rootElement.TryGetProperty("Compendium", out var compendiumElement))
+            return;
+
+        var options = new JsonSerializerOptions { WriteIndented = true, PropertyNameCaseInsensitive = true };
+        var compendiumDefinition = JsonSerializer.Deserialize<CompendiumDefinition>(compendiumElement.GetRawText(), options)
+                                   ?? throw new Exception("Failed to deserialize Compendium definition.");
+
+        var compendium = new Compendium(compendiumDefinition);
+
+        // 2. Parse Dynamic Category Blocks and extract entries
+        foreach (var property in rootElement.EnumerateObject())
+        {
+            if (property.Name.Equals("Compendium", StringComparison.OrdinalIgnoreCase))
+                continue;
+
+            var categoryElement = property.Value;
+
+            // Parse Abilities if present
+            compendium.AddFromJSONListItem<AbilityDefinition>("Abilities", categoryElement, options);
+            // Parse Skills if present
+            compendium.AddFromJSONListItem<SkillDefinition>("Skills", categoryElement, options);
+            // Parse DamageTypes if present
+            compendium.AddFromJSONListItem<DamageTypeDefinition>("DamageTypes", categoryElement, options);
+            // Parse SpellSchools if present
+            compendium.AddFromJSONListItem<SpellcastingSchoolDefinition>("SpellSchools", categoryElement, options);
+            // Parse SpellComponents if present
+            compendium.AddFromJSONListItem<SpellcastingComponentDefinition>("SpellComponents", categoryElement, options);
+            // Parse Spells if present
+            compendium.AddFromJSONListItem<SpellDefinition>("Spells", categoryElement, options);
+        }
+
+        Compendia.Add(compendium);
+    }
+
     public void EnableCompendiumByTag(string tag)
     {
         // Avoid reprocessing if already enabled
@@ -95,4 +148,10 @@ public class CompendiumManager
             Console.WriteLine($"Error: {ex.Message}");
         }
     }
+
+
+    //
+    public Compendium? GetById(string id) => Compendia.FirstOrDefault(x => x.Id == new Guid(id));
+    public Compendium? GetByName(string name) => Compendia.FirstOrDefault(x => x.Name == name);
+    public Compendium? GetByTag(string tag) => Compendia.FirstOrDefault(x => x.Tag == tag);
 }

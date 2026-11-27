@@ -3,29 +3,58 @@ using CampaignCompanion.Core;
 using CampaignCompanion.Core.Catalog;
 using System.Text.Json;
 
-CompendiumManager manager = new CompendiumManager();
-manager.LoadCompendiaFromLocalJson();
-
-manager.EnableCompendiumByTag("core"); 
-//manager.EnableCompendiumById(new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa6")); 
-
-foreach(string tag in manager.EnabledCompendia)
+class Program
 {
-    manager.Compendia.FirstOrDefault(x => x.Tag == tag)!.Validate();
+    static void Main(string[] args)
+    {
+        string exportedCompendiaFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Exports");
+        if (!Directory.Exists(exportedCompendiaFolder))
+        {
+            Directory.CreateDirectory(exportedCompendiaFolder);
+        }
+
+        Console.WriteLine("========== Welcome to Character Companion Console App ==========");
+        Console.WriteLine("V. 0.0.1");
+
+        CompendiumManager manager = new CompendiumManager();
+        ConsoleCommandInterpreter interpreter = new ConsoleCommandInterpreter(manager);
+
+        // Load available compendia
+        foreach (var compendiumFilePath in Directory.GetFiles(exportedCompendiaFolder, "*.json"))
+        {
+            string json = File.ReadAllText(compendiumFilePath);
+            CompendiumDefinition? definition = JsonSerializer.Deserialize<CompendiumDefinition>(json);
+            if (definition != null)
+            {
+                manager.Compendia.Add(new Compendium(definition));
+            }
+        }
+
+        Console.WriteLine("Type 'exit', 'quit' or 'q' to close the application.\n");
+        while (true)
+        {
+            Console.Write("> ");
+            string? input = Console.ReadLine();
+            if (input is null)
+            {
+                return;
+            }
+
+            string[] actualCommands = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            if (actualCommands.Length == 0)
+            {
+                continue;
+            }
+
+            if (actualCommands[0].Equals("exit", StringComparison.OrdinalIgnoreCase) ||
+                actualCommands[0].Equals("quit", StringComparison.OrdinalIgnoreCase) ||
+                actualCommands[0].Equals("q", StringComparison.OrdinalIgnoreCase))
+            {
+                Console.WriteLine("Goodbye!");
+                return;
+            }
+
+            interpreter.ParseCommand(actualCommands);
+        }
+    }
 }
-
-return;
-
-string basePath = AppContext.BaseDirectory;
-string path = Path.Combine(basePath, "JSON", "test_compendium.json"); 
-string jsonString = File.ReadAllText(path);
-
-// Deserialize into the wrapper root
-CompendiumFileRoot? root = JsonSerializer.Deserialize<CompendiumFileRoot>(jsonString);
-
-// Extract your CompendiumDefinition
-CompendiumDefinition? compendiumDefinition = root?.Compendium;
-if (compendiumDefinition == null) throw new Exception("SUKKA");
-
-Compendium compendium = new(compendiumDefinition);
-Console.WriteLine(compendium.ToString());

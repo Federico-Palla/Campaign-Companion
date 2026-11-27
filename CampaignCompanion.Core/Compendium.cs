@@ -7,27 +7,26 @@ public sealed class Compendium(CompendiumDefinition definition)
 {
     private readonly List<CatalogEntry> _entries = [];
 
+    // Info
     public Guid Id => definition.Id;
     public string Name => definition.Name;
     public string Tag => definition.Tag;
     public string Version => definition.Version;
     public string Description => definition.Description;
     public IReadOnlyList<CatalogDependency> Dependencies => [.. definition.Dependencies.Select(x => new CatalogDependency() { Tag = x.Key, VersionRange = x.Value })];
-    public object CreationDate => definition.CreationDate;
-    public object LastUpdatedAt => definition.LastUpdatedAt;
+    public DateTime CreationDate => definition.CreationDate;
+    public DateTime LastUpdatedAt => definition.LastUpdatedAt;
 
+    // Entries
     public List<CatalogEntry> All() => _entries;
     public CatalogEntry? FindById(Guid id) => _entries.FirstOrDefault(e => e.Id == id);
     public CatalogEntry? FindByName(string name) => _entries.FirstOrDefault(e => e.Name == name);
     public CatalogEntry? FindByTag(string tag) => _entries.FirstOrDefault(e => e.Tag == tag);
-    public void Add(CatalogEntry entry)
-    {
-        entry.CompendiumId = Id;
-        _entries.Add(entry);
-    }
-
+    
+    public void Add(CatalogEntry entry) => _entries.Add(entry);
     public void Clear() => _entries.Clear();
     public IEnumerable<T> Of<T>() where T : CatalogEntry => _entries.OfType<T>();
+
 
     public bool Validate()
     {
@@ -41,10 +40,6 @@ public sealed class Compendium(CompendiumDefinition definition)
 
                 if(!entry.Validate(out string errorMessage))
                     throw new InvalidOperationException($"Invalid Entry Found: '{entry.Tag}': {errorMessage}");
-
-                //should never happen
-                if(entry.CompendiumId != Id)
-                    throw new InvalidOperationException($"Invalid CompendiumId for Entry '{entry.Tag}': Expected '{Id}', Found '{entry.CompendiumId}'.");
 
                 foreach(var dependency in entry.Dependencies)
                 {

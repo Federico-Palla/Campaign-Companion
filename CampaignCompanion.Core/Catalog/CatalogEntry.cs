@@ -10,8 +10,7 @@ public abstract class CatalogEntry
     public string Tag { get; set; } = string.Empty;
     public required string Version { get; init; }
     public string Description { get; init; } = string.Empty;
-    public Guid CompendiumId { get; set; }
-    public required Dictionary<string, string> Dependencies { get; init; } = [];
+    public Dictionary<string, string> Dependencies { get; init; } = [];
 
     public virtual bool Validate(out string errorMessage)
     {

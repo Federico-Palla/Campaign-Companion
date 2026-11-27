@@ -8,6 +8,7 @@ public class MundaneItemDefinition : ItemDefinition;
 /// I.e. Artisan Tools ot Musical Instrument
 /// </summary>
 public sealed class ToolCategoryDefinition : CatalogEntry;
+
 public sealed class ToolDefinition : MundaneItemDefinition
 {
     public required string Category { get; set; }
@@ -41,6 +42,7 @@ public sealed class ToolDefinition : MundaneItemDefinition
 }
 
 public sealed class ArmorCategoryDefinition : CatalogEntry;
+
 public sealed class ArmorDefinition : MundaneItemDefinition
 {
     public required string Category { get; set; }
@@ -66,7 +68,9 @@ public sealed class ArmorDefinition : MundaneItemDefinition
 
 public sealed class WeaponCategoryDefinition : CatalogEntry;
 public sealed class WeaponPropertyDefinition : CatalogEntry;
+
 public sealed class WeaponMasteryDefinition : CatalogEntry;
+
 public sealed class WeaponPropertyUsageDefinition
 {
     public required string Property { get; set; }

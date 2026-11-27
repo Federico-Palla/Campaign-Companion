@@ -3,7 +3,6 @@
 namespace CampaignCompanion.Core.Catalog.Feats
 {
     public class GrantDefinition : CatalogEntry;
-
     public class AbilityScoreGrantDefinition : GrantDefinition
     {
         public IReadOnlyList<string> AbilityChoiceList { get; set; } = [];
