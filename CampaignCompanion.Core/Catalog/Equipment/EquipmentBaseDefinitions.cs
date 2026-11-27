@@ -15,7 +15,7 @@ public sealed class ItemRarityDefinition : CatalogEntry;
 /// </summary>
 public class ItemDefinition : CatalogEntry
 {
-    public required int Cost { get; init; }
+    public required float Value { get; init; }
     public required int Weight { get; init; }
     public required string Type { get; init; }
 
@@ -27,9 +27,9 @@ public class ItemDefinition : CatalogEntry
             errorMessage = $"Invalid Type: '{Type}' is not listed as a dependency.";
             return false;
         }
-        if (Cost < 0)
+        if (Value < 0)
         {
-            errorMessage = $"Invalid Cost: '{Cost}' is negative.";
+            errorMessage = $"Invalid Value: '{Value}' is negative.";
             return false;
         }
         if (Weight < 0)

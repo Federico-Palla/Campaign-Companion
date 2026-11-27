@@ -1,0 +1,562 @@
+{
+  "Compendium": {
+    "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c001",
+    "Name": "Domain Model Sample Compendium",
+    "Tag": "sample",
+    "Version": "1.0.0",
+    "Description": "Representative data covering each concrete CatalogEntry definition in CampaignCompanion.Core.",
+    "Dependencies": {},
+    "CreationDate": "2026-11-27T00:00:00Z",
+    "LastUpdatedAt": "2026-11-27T00:00:00Z"
+  },
+  "Core": {
+    "Abilities": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c002",
+        "Name": "Strength",
+        "Tag": "core:ability:strength",
+        "Version": "1.0.0",
+        "Description": "Physical power and athletic ability.",
+        "Dependencies": {}
+      },
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c003",
+        "Name": "Constitution",
+        "Tag": "core:ability:constitution",
+        "Version": "1.0.0",
+        "Description": "Health, stamina, and resilience.",
+        "Dependencies": {}
+      }
+    ],
+    "Skills": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c004",
+        "Name": "Athletics",
+        "Tag": "core:skill:athletics",
+        "Version": "1.0.0",
+        "Description": "Climbing, jumping, and swimming.",
+        "Dependencies": { "core:ability:strength": "^1.0.0" },
+        "Attribute": "core:ability:strength"
+      }
+    ],
+    "DamageTypes": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c005",
+        "Name": "Fire",
+        "Tag": "core:damage-type:fire",
+        "Version": "1.0.0",
+        "Description": "Damage from flames and extreme heat.",
+        "Dependencies": {}
+      }
+    ],
+    "Classes": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c006",
+        "Name": "Vanguard",
+        "Tag": "core:class:vanguard",
+        "Version": "1.0.0",
+        "Description": "A resilient front-line warrior.",
+        "Dependencies": {
+          "core:ability:strength": "^1.0.0",
+          "core:ability:constitution": "^1.0.0",
+          "core:skill:athletics": "^1.0.0",
+          "core:weapon-category:martial": "^1.0.0",
+          "core:armor-category:light": "^1.0.0"
+        },
+        "PrimaryAbility": "core:ability:strength",
+        "HitPointDie": 10,
+        "SavingThrowProficencies": [ "core:ability:strength", "core:ability:constitution" ],
+        "SkillProficenciesList": [ "core:skill:athletics" ],
+        "SkillProficienciesCount": 1,
+        "WeaponProficiencies": [ "core:weapon-category:martial" ],
+        "ArmorTrainingList": [ "core:armor-category:light" ],
+        "ToolProficiencies": [],
+        "Features": [ "core:class-feature:second-wind" ]
+      }
+    ],
+    "Backgrounds": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c007",
+        "Name": "Militia Veteran",
+        "Tag": "core:background:militia-veteran",
+        "Version": "1.0.0",
+        "Description": "A trained defender who served a frontier settlement.",
+        "Dependencies": {
+          "core:ability:strength": "^1.0.0",
+          "core:skill:athletics": "^1.0.0",
+          "core:equipment:item:field-kit": "^1.0.0",
+          "core:feat:alert": "^1.0.0"
+        },
+        "BackgroundType": "Origin",
+        "AbilityScores": [ "core:ability:strength" ],
+        "MaxSpendablePointsInAbilities": 2,
+        "SkillProficienciesList": [ "core:skill:athletics" ],
+        "ToolProficienciesList": [],
+        "Equipment": [ "core:equipment:item:field-kit" ],
+        "Feat": "core:feat:alert"
+      }
+    ]
+  },
+  "Features": {
+    "FeatCategories": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c008",
+        "Name": "Origin",
+        "Tag": "core:feat-category:origin",
+        "Version": "1.0.0",
+        "Description": "A feat available through a character's origin.",
+        "Dependencies": {}
+      }
+    ],
+    "Feats": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c009",
+        "Name": "Alert",
+        "Tag": "core:feat:alert",
+        "Version": "1.0.0",
+        "Description": "You are quick to notice danger and act decisively.",
+        "Dependencies": {
+          "core:feat-category:origin": "^1.0.0",
+          "core:grant:initiative-training": "^1.0.0"
+        },
+        "Category": "core:feat-category:origin",
+        "PrerequisiteFeatures": [],
+        "PrerequisiteText": "None",
+        "Grants": [ "core:grant:initiative-training" ],
+        "Rules": [ "You gain a bonus to initiative." ]
+      }
+    ],
+    "ClassFeats": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c010",
+        "Name": "Second Wind",
+        "Tag": "core:class-feature:second-wind",
+        "Version": "1.0.0",
+        "Description": "Recover from a brief surge of effort.",
+        "Dependencies": { "core:grant:second-wind-use": "^1.0.0" },
+        "Category": "core:feat-category:origin",
+        "PrerequisiteFeatures": [],
+        "PrerequisiteText": "Vanguard level 1",
+        "Grants": [ "core:grant:second-wind-use" ],
+        "Rules": [ "Regain a small amount of vitality." ],
+        "Level": 1
+      }
+    ],
+    "ChoiceOptionFeats": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c011",
+        "Name": "Guarded Stance",
+        "Tag": "core:class-feature:guarded-stance",
+        "Version": "1.0.0",
+        "Description": "Adopt a defensive combat stance.",
+        "Dependencies": {},
+        "Category": "core:feat-category:origin",
+        "PrerequisiteFeatures": [],
+        "PrerequisiteText": "Vanguard level 2",
+        "Grants": [],
+        "Rules": [ "While chosen, improve your defense." ],
+        "Level": 2,
+        "PoolTag": "core:pool:combat-style"
+      }
+    ],
+    "Rules": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c012",
+        "Name": "Initiative Training",
+        "Tag": "core:rule:initiative-training",
+        "Version": "1.0.0",
+        "Description": "The character is trained to respond quickly when danger appears.",
+        "Dependencies": {}
+      }
+    ],
+    "Grants": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c013",
+        "Name": "Generic Grant",
+        "Tag": "core:grant:generic",
+        "Version": "1.0.0",
+        "Description": "Base grant entry example.",
+        "Dependencies": {}
+      },
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c020",
+        "Name": "Initiative Training Grant",
+        "Tag": "core:grant:initiative-training",
+        "Version": "1.0.0",
+        "Description": "A representative base grant referenced by the Alert feat.",
+        "Dependencies": {}
+      }
+    ],
+    "AbilityScoreGrants": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c014",
+        "Name": "Ability Increase",
+        "Tag": "core:grant:ability-increase",
+        "Version": "1.0.0",
+        "Description": "Increase an ability score.",
+        "Dependencies": {},
+        "AbilityChoiceList": [ "core:ability:strength" ],
+        "MaxAffectedAbilities": 1,
+        "ScoreChange": 1,
+        "ScoreMax": 20
+      }
+    ],
+    "ProficiencyGrants": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c015",
+        "Name": "Athletics Training",
+        "Tag": "core:grant:athletics-training",
+        "Version": "1.0.0",
+        "Description": "Gain proficiency in Athletics.",
+        "Dependencies": {},
+        "Skills": [ "core:skill:athletics" ]
+      }
+    ],
+    "ResourceGrants": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c016",
+        "Name": "Second Wind Use",
+        "Tag": "core:grant:second-wind-use",
+        "Version": "1.0.0",
+        "Description": "A limited-use recovery resource.",
+        "Dependencies": {},
+        "Progression": 0,
+        "MaxUsages": [
+          {
+            "FromLevel": 1,
+            "Multiplier": 1,
+            "Value": 1
+          }
+        ],
+        "RechargeRules": "Regain all uses after a long rest."
+      }
+    ],
+    "MultiSpellChoiceGrants": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c017",
+        "Name": "Spell Selection",
+        "Tag": "core:grant:spell-selection",
+        "Version": "1.0.0",
+        "Description": "Choose a spell from an eligible spell list.",
+        "Dependencies": {},
+        "SpellLevel": 1,
+        "SpellCount": 1,
+        "ClassSpellLists": [ "core:class:vanguard" ],
+        "SpellcastingAbilityChoice": [ "core:ability:strength" ]
+      }
+    ],
+    "SpellGrants": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c018",
+        "Name": "Prepared Spell",
+        "Tag": "core:grant:prepared-spell",
+        "Version": "1.0.0",
+        "Description": "Always have a specified spell prepared.",
+        "Dependencies": { "core:spell:ember": "^1.0.0" },
+        "SpellLevel": 1,
+        "AlwaysPreparedSpells": [ "core:spell:ember" ]
+      }
+    ],
+    "FeatureChoiceGrants": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c019",
+        "Name": "Combat Style Choice",
+        "Tag": "core:grant:combat-style-choice",
+        "Version": "1.0.0",
+        "Description": "Choose a feature from a progression pool.",
+        "Dependencies": {},
+        "PoolTag": "core:pool:combat-style",
+        "Count": [
+          {
+            "FromLevel": 2,
+            "Multiplier": 1,
+            "Value": 1
+          }
+        ]
+      }
+    ]
+  },
+  "Equipment": {
+    "Types": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c021",
+        "Name": "Adventuring Gear",
+        "Tag": "core:item-type:adventuring-gear",
+        "Version": "1.0.0",
+        "Description": "General equipment used on an adventure.",
+        "Dependencies": {}
+      }
+    ],
+    "Rarities": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c022",
+        "Name": "Uncommon",
+        "Tag": "core:item-rarity:uncommon",
+        "Version": "1.0.0",
+        "Description": "An uncommon magical item rarity.",
+        "Dependencies": {}
+      }
+    ],
+    "Items": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c023",
+        "Name": "Rope",
+        "Tag": "core:equipment:item:rope",
+        "Version": "1.0.0",
+        "Description": "A sturdy hemp rope.",
+        "Dependencies": { "core:item-type:adventuring-gear": "^1.0.0" },
+        "Value": 1.0,
+        "Weight": 10,
+        "Type": "core:item-type:adventuring-gear"
+      }
+    ],
+    "MundaneItems": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c024",
+        "Name": "Field Kit",
+        "Tag": "core:equipment:item:field-kit",
+        "Version": "1.0.0",
+        "Description": "A compact kit of useful field supplies.",
+        "Dependencies": { "core:item-type:adventuring-gear": "^1.0.0" },
+        "Value": 8.0,
+        "Weight": 5,
+        "Type": "core:item-type:adventuring-gear"
+      }
+    ],
+    "ToolCategories": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c025",
+        "Name": "Artisan Tools",
+        "Tag": "core:tool-category:artisan",
+        "Version": "1.0.0",
+        "Description": "Tools used to practice a craft.",
+        "Dependencies": {}
+      }
+    ],
+    "Tools": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c026",
+        "Name": "Smith's Tools",
+        "Tag": "core:equipment:tool:smiths-tools",
+        "Version": "1.0.0",
+        "Description": "Tools for shaping and repairing metal.",
+        "Dependencies": {
+          "core:item-type:adventuring-gear": "^1.0.0",
+          "core:tool-category:artisan": "^1.0.0",
+          "core:ability:strength": "^1.0.0"
+        },
+        "Value": 20.0,
+        "Weight": 8,
+        "Type": "core:item-type:adventuring-gear",
+        "Category": "core:tool-category:artisan",
+        "Ability": "core:ability:strength",
+        "Utilize": "Repair or shape a metal object.",
+        "CraftableItems": []
+      }
+    ],
+    "ArmorCategories": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c027",
+        "Name": "Light Armor",
+        "Tag": "core:armor-category:light",
+        "Version": "1.0.0",
+        "Description": "Light armor prioritizes mobility.",
+        "Dependencies": {}
+      }
+    ],
+    "Armors": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c028",
+        "Name": "Leather Armor",
+        "Tag": "core:equipment:armor:leather",
+        "Version": "1.0.0",
+        "Description": "Light armor made from treated leather.",
+        "Dependencies": {
+          "core:item-type:adventuring-gear": "^1.0.0",
+          "core:armor-category:light": "^1.0.0"
+        },
+        "Value": 10.0,
+        "Weight": 10,
+        "Type": "core:item-type:adventuring-gear",
+        "Category": "core:armor-category:light",
+        "BaseArmorClass": 11,
+        "AdditionalModifier": 0,
+        "UseDexterity": true,
+        "DexterityModifierCap": 0,
+        "StregthRequirement": 0,
+        "StealthDisadvantage": false
+      }
+    ],
+    "WeaponCategories": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c029",
+        "Name": "Martial",
+        "Tag": "core:weapon-category:martial",
+        "Version": "1.0.0",
+        "Description": "Weapons requiring dedicated combat training.",
+        "Dependencies": {}
+      }
+    ],
+    "WeaponProperties": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c030",
+        "Name": "Versatile",
+        "Tag": "core:weapon-property:versatile",
+        "Version": "1.0.0",
+        "Description": "Can be used with one or two hands.",
+        "Dependencies": {}
+      }
+    ],
+    "WeaponMasteries": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c031",
+        "Name": "Flex",
+        "Tag": "core:weapon-mastery:flex",
+        "Version": "1.0.0",
+        "Description": "A mastery technique for a versatile weapon.",
+        "Dependencies": {}
+      }
+    ],
+    "Weapons": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c032",
+        "Name": "Longsword",
+        "Tag": "core:equipment:weapon:longsword",
+        "Version": "1.0.0",
+        "Description": "A straight-bladed martial weapon.",
+        "Dependencies": {
+          "core:item-type:adventuring-gear": "^1.0.0",
+          "core:weapon-category:martial": "^1.0.0",
+          "core:weapon-property:versatile": "^1.0.0"
+        },
+        "Value": 15.0,
+        "Weight": 3,
+        "Type": "core:item-type:adventuring-gear",
+        "Category": "core:weapon-category:martial",
+        "WeaponProperties": [
+          {
+            "Property": "core:weapon-property:versatile",
+            "AlternateRoll": {
+              "DiceCount": 1,
+              "DiceSize": 10
+            }
+          }
+        ],
+        "Damage": {
+          "DiceCount": 1,
+          "DiceSize": 8
+        },
+        "IsRanged": false
+      }
+    ],
+    "Poisons": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c033",
+        "Name": "Basic Poison",
+        "Tag": "core:equipment:poison:basic",
+        "Version": "1.0.0",
+        "Description": "A simple contact poison.",
+        "Dependencies": { "core:item-type:adventuring-gear": "^1.0.0" },
+        "Value": 100.0,
+        "Weight": 0,
+        "Type": "core:item-type:adventuring-gear"
+      }
+    ],
+    "Creatures": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c034",
+        "Name": "Pack Mule",
+        "Tag": "core:equipment:creature:pack-mule",
+        "Version": "1.0.0",
+        "Description": "A sure-footed animal trained to carry supplies.",
+        "Dependencies": { "core:item-type:adventuring-gear": "^1.0.0" },
+        "Value": 8.0,
+        "Weight": 0,
+        "Type": "core:item-type:adventuring-gear",
+        "IsMount": true,
+        "CarryCapacity": 420,
+        "Barding": null
+      }
+    ],
+    "MagicalItems": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c035",
+        "Name": "Ember Charm",
+        "Tag": "core:equipment:magic-item:ember-charm",
+        "Version": "1.0.0",
+        "Description": "A charm that glows warmly when held.",
+        "Dependencies": {
+          "core:item-type:adventuring-gear": "^1.0.0",
+          "core:item-rarity:uncommon": "^1.0.0"
+        },
+        "Value": 50.0,
+        "Weight": 1,
+        "Type": "core:item-type:adventuring-gear",
+        "Rarity": "core:item-rarity:uncommon",
+        "Attunement": false,
+        "AttunementRequirement": "",
+        "Consumable": false,
+        "Charges": 0,
+        "RechargeRule": "",
+        "MagicalProperties": []
+      }
+    ],
+    "MagicalProperties": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c036",
+        "Name": "Ember Affinity",
+        "Tag": "core:magical-property:ember-affinity",
+        "Version": "1.0.0",
+        "Description": "A property that grants resistance to fire.",
+        "Dependencies": {},
+        "MagicalEffects": []
+      }
+    ]
+  },
+  "Spellcasting": {
+    "SpellSchools": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c037",
+        "Name": "Evocation",
+        "Tag": "core:spell-school:evocation",
+        "Version": "1.0.0",
+        "Description": "Magic that shapes energy and creates effects.",
+        "Dependencies": {}
+      }
+    ],
+    "SpellComponents": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c038",
+        "Name": "Verbal",
+        "Tag": "core:spell-component:verbal",
+        "Version": "1.0.0",
+        "Description": "The spell requires spoken words.",
+        "Dependencies": {}
+      }
+    ],
+    "Spells": [
+      {
+        "Id": "4c1175b3-d503-4cb7-a99f-3f94bd53c039",
+        "Name": "Ember",
+        "Tag": "core:spell:ember",
+        "Version": "1.0.0",
+        "Description": "A small mote of fire strikes a nearby target.",
+        "Dependencies": { "core:spell-school:evocation": "^1.0.0" },
+        "SpellSchool": "core:spell-school:evocation",
+        "Level": 0,
+        "CastingTime": 0,
+        "Range": {
+          "Range": 30,
+          "LongRange": 0
+        },
+        "Duration": 0,
+        "HasConcentration": false,
+        "Ritual": false,
+        "Components": [ "core:spell-component:verbal" ],
+        "SpellUpgradeLabel": "Cantrip Upgrade",
+        "SpellUpgradeDescription": "The spell's damage grows at higher character levels.",
+        "Classes": [ "core:class:vanguard" ]
+      }
+    ]
+  }
+}
