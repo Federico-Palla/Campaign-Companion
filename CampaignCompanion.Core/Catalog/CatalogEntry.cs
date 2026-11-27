@@ -8,11 +8,11 @@ public abstract class CatalogEntry
     public const string SectionName = "CatalogEntry";
 
     public Guid Id { get; init; } = Guid.NewGuid();
-    public required string Name { get; init; }
+    public string Name { get; set; } = string.Empty;
     public string Tag { get; set; } = string.Empty;
-    public required string Version { get; init; }
-    public string Description { get; init; } = string.Empty;
-    public Dictionary<string, string> Dependencies { get; init; } = [];
+    public string Version { get; set; } = "1.0.0";
+    public string Description { get; set; } = string.Empty;
+    public Dictionary<string, string> Dependencies { get; set; } = [];
 
     public virtual bool Validate(out string errorMessage)
     {

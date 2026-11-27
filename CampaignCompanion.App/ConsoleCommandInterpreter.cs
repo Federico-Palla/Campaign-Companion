@@ -1,5 +1,6 @@
 ﻿using CampaignCompanion.Core;
 using CampaignCompanion.Core.Catalog;
+using System.Reflection;
 using System.Text.Json;
 
 namespace CampaignCompanion.App
@@ -45,8 +46,10 @@ namespace CampaignCompanion.App
                         Console.WriteLine("Usage: create-new");
                         return;
                     }
-
                     CreateCompendium(Manager);
+                    break;
+                case "add":
+                    AddCatalogEntity(arguments);
                     break;
 
                 case "export":
@@ -63,6 +66,98 @@ namespace CampaignCompanion.App
             }
         }
 
+        private void AddCatalogEntity(string[] commands)
+        {
+            // usage : add --section --entityType
+            if (commands.Length < 3)
+            {
+                Console.WriteLine("Usage: add --[entityType] <compendium-tag>");
+                return;
+            }
+
+            if (commands.Length == 3) 
+            {
+                string compendiumTag = commands[2];
+                var compendium = Manager.GetByTag(compendiumTag);
+                if (compendium == null) 
+                {
+                    Console.WriteLine("[ERROR] Compendium with tag {0} was not found.", compendiumTag);
+                    return;
+                }
+
+                switch (commands[1])
+                {
+                    case "--ability":
+                        Console.WriteLine("===== Ability Definition Creation =====");
+
+                        AbilityDefinition ability = new AbilityDefinition();
+                        PopulateCatalogEntry(ability, compendium, AbilityDefinition.SectionName);
+                        
+                        compendium.Add(ability);
+                        break;
+                    case "--skill":
+
+                        Console.WriteLine("===== Skill Definition Creation =====");
+
+                        SkillDefinition skillDefinition = new SkillDefinition();
+                        PopulateCatalogEntry(skillDefinition, compendium, SkillDefinition.SectionName);
+
+                        string skillAttributeTag = EnterStringValue("Attribute Tag");
+                        if (!compendium.All().Any(c => c.Tag == skillAttributeTag))
+                        {
+                            Console.Write("[Error] Tag {0} is not present, you need to define a suitable Attribute first new one.", skillAttributeTag);
+                            return;
+                        }
+
+                        var actualAttribute = compendium.FindByTag(skillAttributeTag);                        
+                        if(actualAttribute != null) skillDefinition.Dependencies.TryAdd(actualAttribute.Tag, actualAttribute.Version);
+
+                        compendium.Add(skillDefinition);
+                        break;
+                    default : Console.WriteLine("[ERROR] Entity Type not supported."); break;
+                }
+            }
+        }
+
+        private void PopulateCatalogEntry(
+            CatalogEntry entry,
+            Compendium compendium,
+            string sectionName)
+        {
+            const string defaultCreationVersion = "1.0.0";
+
+            string name = EnterStringValue("Name");
+            string baseTag = $"{compendium.Tag}:{sectionName.ToLowerInvariant()}:{name.ToLowerInvariant().Replace(" ", "-")}";
+            string tag = baseTag;
+
+            int count = 1;
+            while (compendium.All().Any(c => c.Tag == tag))
+            {
+                tag = $"{baseTag}_{count++}";
+            }
+
+            Console.Write("Given this Name the Tag suggested is {0}, do you confirm? (y/n): ", tag);
+            string tagAnswer = Console.ReadLine() ?? "n";
+            if (!tagAnswer.Equals("y", StringComparison.CurrentCultureIgnoreCase))
+            {
+                tag = EnterStringValue("Tag");
+            }
+
+            while (compendium.All().Any(c => c.Tag == tag))
+            {
+                Console.WriteLine("[Error] Tag {0} is already present, you need to define a new one.", tag);
+                tag = EnterStringValue("Tag");
+            }
+
+            string description = EnterStringValue("Description", true);
+
+            entry.Name = name;
+            entry.Version = defaultCreationVersion;
+            entry.Tag = tag;
+            entry.Description = description;
+            entry.Dependencies ??= [];
+        }
+
         private void ExportCompendia(string[] commands)
         {
             if (commands.Length < 2)
@@ -73,21 +168,14 @@ namespace CampaignCompanion.App
 
             if (commands.Length == 2 && commands[1] == "--all")
             {
-                Console.WriteLine("Do you whish to export all Compendia? (y/n)");
+                Console.Write("Do you whish to export all Compendia? (y/n)");
                 string answer = Console.ReadLine() ?? "n";
                 if (answer.Equals("y", StringComparison.CurrentCultureIgnoreCase))
                 {
                     foreach (var compendium in Manager.Compendia)
                     {
                         // Export Compendium
-                        var options = new JsonSerializerOptions { WriteIndented = true, PropertyNameCaseInsensitive = true };
-                        string json = JsonSerializer.Serialize(compendium, options);
-
-                        string filePath = Path.Combine(Manager.CompendiaFolder, $"{compendium.Tag}.json");
-                        File.WriteAllText(filePath, json);
-
-                        Console.WriteLine("Compendium {0} has been successfuly exported in {1}", compendium.Tag, filePath);
-
+                        DoExport(compendium);
                     }
                 }                
             }
@@ -102,13 +190,7 @@ namespace CampaignCompanion.App
                             Console.WriteLine("Usage: export --all | export --tag <tag>");
                             return;
                         }
-                        var options = new JsonSerializerOptions { WriteIndented = true, PropertyNameCaseInsensitive = true };
-                        string json = JsonSerializer.Serialize(compendium, options);
-
-                        string filePath = Path.Combine(Manager.CompendiaFolder, $"{compendium.Tag}.json");
-                        File.WriteAllText(filePath, json);
-
-                        Console.WriteLine("Compendium {0} has been successfuly exported in {1}", compendium.Tag, filePath);
+                        DoExport(compendium);
                         break;
                     default:
                         Console.WriteLine("Usage: export --all | export --tag <tag>");
@@ -117,6 +199,41 @@ namespace CampaignCompanion.App
             }
         }
 
+        private void DoExport(Compendium compendium)
+        {
+            var options = new JsonSerializerOptions { WriteIndented = true, PropertyNameCaseInsensitive = true };
+            var root = new Dictionary<string, object?>
+            {
+                [CompendiumDefinition.SectionName] = compendium.Definition
+            };
+
+            foreach(var entity in compendium.All())
+            {
+                FieldInfo sectionField = entity.GetType().GetField( 
+                    nameof(CatalogEntry.SectionName),
+                    BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)
+                    ?? throw new InvalidOperationException($"Catalog entry '{entity.GetType().FullName}' does not declare a SectionName constant.");
+
+                string sectionName = (string)sectionField.GetRawConstantValue()!;
+
+                if (!root.ContainsKey(sectionName))
+                {
+                    root.Add(sectionName, new List<CatalogEntry>());
+                    (root[sectionName] as List<CatalogEntry>)!.Add(entity);
+                }
+                else
+                {
+                    (root[sectionName] as List<CatalogEntry>)!.Add(entity);
+                }
+            }
+
+            string json = JsonSerializer.Serialize(root, options);
+
+            string filePath = Path.Combine(Manager.CompendiaFolder, $"{compendium.Tag}.json");
+            File.WriteAllText(filePath, json);
+
+            Console.WriteLine("Compendium {0} has been successfuly exported in {1}", compendium.Tag, filePath);
+        }
 
         private void ShowCompendium(string[] commands)
         {
@@ -168,14 +285,18 @@ namespace CampaignCompanion.App
         private static void PrintHelp()
         {
             Console.WriteLine("Available commands:");
-            Console.WriteLine("  list                         List all Compendia");
-            Console.WriteLine("  show <tag>                   Show a Compendium by tag");
-            Console.WriteLine("  show --tag <tag>             Show a Compendium by tag");
-            Console.WriteLine("  show --id <id>               Show a Compendium by ID");
-            Console.WriteLine("  show --name <name>           Show a Compendium by name");
-            Console.WriteLine("  create-new                   Create a Compendium");
-            Console.WriteLine("  help                         Show this help");
-            Console.WriteLine("  exit | quit                  Close the application");
+            Console.WriteLine("  list                                   List all Compendia");
+            Console.WriteLine("  show <tag>                             Show a Compendium by tag");
+            Console.WriteLine("  show --tag <tag>                       Show a Compendium by tag");
+            Console.WriteLine("  show --id <id>                         Show a Compendium by ID");
+            Console.WriteLine("  show --name <name>                     Show a Compendium by name");
+            Console.WriteLine("  create-new                             Create a Compendium");
+            Console.WriteLine("  add --ability <compendium-tag>         Add an Ability Definition to a Compendium");
+            Console.WriteLine("  add --skill <compendium-tag>           Add a Skill Definition to a Compendium");
+            Console.WriteLine("  export --all                           Export all Compendia to JSON");
+            Console.WriteLine("  export --tag <tag>                     Export a single Compendium to JSON");
+            Console.WriteLine("  help                                   Show this help");
+            Console.WriteLine("  exit | quit                            Close the application");
         }
 
         private static CompendiumDefinition CreateCompendium(CompendiumManager manager)
@@ -202,8 +323,8 @@ namespace CampaignCompanion.App
             }
 
             string compendiumDescription = EnterStringValue("Description", true);
-            string defaultCreationVersion = "v.1.0.0";
-            Dictionary<string, string> dependencies = CollectDependencies(manager, compendiumTag);
+            string defaultCreationVersion = "1.0.0";
+            Dictionary<string, string> dependencies = new Dictionary<string, string>();//CollectDependencies(manager, compendiumTag);
 
             var newCompendium = new CompendiumDefinition()
             {
@@ -219,17 +340,20 @@ namespace CampaignCompanion.App
             // stringification
             Console.WriteLine("===== Compendium has been Created =====");
             Compendium compendium = new Compendium(newCompendium);
+            
             Console.WriteLine(compendium.ToString());
+            
             manager.Compendia.Add(compendium);
 
             return newCompendium;
         }
 
-        private static Dictionary<string, string> CollectDependencies(CompendiumManager manager, string compendiumTag)
+        // TODO da rivedere
+        private static Dictionary<string, string> CollectDependencies(CompendiumManager manager, string entityTag)
         {
             var dependencies = new Dictionary<string, string>();
             Compendium[] availableCompendia = manager.Compendia
-                .Where(compendium => !compendium.Tag.Equals(compendiumTag, StringComparison.OrdinalIgnoreCase))
+                .Where(compendium => !compendium.Tag.Equals(entityTag, StringComparison.OrdinalIgnoreCase))
                 .ToArray();
 
             if (availableCompendia.Length == 0)
@@ -244,7 +368,6 @@ namespace CampaignCompanion.App
                    !answer.Equals("y", StringComparison.OrdinalIgnoreCase) &&
                    !answer.Equals("n", StringComparison.OrdinalIgnoreCase))
             {
-                Console.Write("Please enter 'y' or 'n': ");
                 answer = Console.ReadLine();
             }
 
@@ -253,11 +376,13 @@ namespace CampaignCompanion.App
                 return dependencies;
             }
 
+            /*
             Console.WriteLine("Available Compendia:");
             foreach (var compendium in availableCompendia)
             {
                 Console.WriteLine("  [{0}] {1} ({2})", compendium.Tag, compendium.Name, compendium.Version);
             }
+            */
 
             while (true)
             {
@@ -291,7 +416,7 @@ namespace CampaignCompanion.App
 
         private static string EnterStringValue(string label, bool optional = false)
         {
-            Console.WriteLine("Enter {0}{1}: ", label, optional ? "(optional)" : "");
+            Console.Write("Enter {0}{1}: ", label, optional ? "(optional)" : "");
             string value = Console.ReadLine() ?? "";
             if (!optional)
             {

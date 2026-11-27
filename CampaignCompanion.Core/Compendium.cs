@@ -17,6 +17,8 @@ public sealed class Compendium(CompendiumDefinition definition)
     public DateTime CreationDate => definition.CreationDate;
     public DateTime LastUpdatedAt => definition.LastUpdatedAt;
 
+    public CompendiumDefinition Definition => definition;
+
     // Entries
     public List<CatalogEntry> All() => _entries;
     public CatalogEntry? FindById(Guid id) => _entries.FirstOrDefault(e => e.Id == id);
@@ -65,7 +67,7 @@ public sealed class Compendium(CompendiumDefinition definition)
     {
         var sb = new StringBuilder();
 
-        sb.AppendLine($"=== Compendium: {Name} (v{Version}) ===");
+        sb.AppendLine($"=== Compendium: {Name} (v.{Version}) ===");
         sb.AppendLine($"ID           : {Id}");
         sb.AppendLine($"Tag          : {(string.IsNullOrEmpty(Tag) ? "(None)" : Tag)}");
         sb.AppendLine($"Description  : {(string.IsNullOrEmpty(Description) ? "(No description)" : Description)}");

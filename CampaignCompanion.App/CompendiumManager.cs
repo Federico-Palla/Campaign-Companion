@@ -25,11 +25,8 @@ public class CompendiumManager
         }
     }
 
-    public void LoadCompendiaFromLocalJson()
+    public void LoadCompendiaFromFolder(string jsonsDir)
     {
-        string basePath = AppContext.BaseDirectory;
-        string jsonsDir = Path.Combine(basePath, "JSON");
-
         var options = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
@@ -46,7 +43,7 @@ public class CompendiumManager
             var rootElement = doc.RootElement;
 
             // 1. Parse Compendium Metadata
-            if (!rootElement.TryGetProperty("Compendium", out var compendiumElement))
+            if (!rootElement.TryGetProperty(CompendiumDefinition.SectionName, out var compendiumElement))
                 continue;
 
             var compendiumDefinition = JsonSerializer.Deserialize<CompendiumDefinition>(compendiumElement.GetRawText(), options)
@@ -57,7 +54,7 @@ public class CompendiumManager
             // 2. Parse Dynamic Category Blocks (e.g., "Core", "Technomancy") and extract entries
             foreach (var property in rootElement.EnumerateObject())
             {
-                if (property.Name.Equals("Compendium", StringComparison.OrdinalIgnoreCase))
+                if (property.Name.Equals(CompendiumDefinition.SectionName, StringComparison.OrdinalIgnoreCase))
                     continue;
 
                 var categoryElement = property.Value;
@@ -76,7 +73,7 @@ public class CompendiumManager
         var rootElement = doc.RootElement;
 
         // 1. Parse Compendium Metadata
-        if (!rootElement.TryGetProperty("Compendium", out var compendiumElement))
+        if (!rootElement.TryGetProperty(CompendiumDefinition.SectionName, out var compendiumElement))
             return;
 
         var options = new JsonSerializerOptions { WriteIndented = true, PropertyNameCaseInsensitive = true };
@@ -88,7 +85,7 @@ public class CompendiumManager
         // 2. Parse Dynamic Category Blocks and extract entries
         foreach (var property in rootElement.EnumerateObject())
         {
-            if (property.Name.Equals("Compendium", StringComparison.OrdinalIgnoreCase))
+            if (property.Name.Equals(CompendiumDefinition.SectionName, StringComparison.OrdinalIgnoreCase))
                 continue;
 
             var categoryElement = property.Value;

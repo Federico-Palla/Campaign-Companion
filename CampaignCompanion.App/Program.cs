@@ -1,11 +1,8 @@
-﻿using CampaignCompanion.App;
-using CampaignCompanion.Core;
-using CampaignCompanion.Core.Catalog;
-using System.Text.Json;
+﻿namespace CampaignCompanion.App;
 
 class Program
 {
-    static void Main(string[] args)
+    static void Main()
     {
         string exportedCompendiaFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Exports");
         if (!Directory.Exists(exportedCompendiaFolder))
@@ -16,19 +13,10 @@ class Program
         Console.WriteLine("========== Welcome to Character Companion Console App ==========");
         Console.WriteLine("V. 0.0.1");
 
-        CompendiumManager manager = new CompendiumManager();
-        ConsoleCommandInterpreter interpreter = new ConsoleCommandInterpreter(manager);
+        CompendiumManager manager = new ();
+        ConsoleCommandInterpreter interpreter = new (manager);
 
-        // Load available compendia
-        foreach (var compendiumFilePath in Directory.GetFiles(exportedCompendiaFolder, "*.json"))
-        {
-            string json = File.ReadAllText(compendiumFilePath);
-            CompendiumDefinition? definition = JsonSerializer.Deserialize<CompendiumDefinition>(json);
-            if (definition != null)
-            {
-                manager.Compendia.Add(new Compendium(definition));
-            }
-        }
+        manager.LoadCompendiaFromFolder(exportedCompendiaFolder);
 
         Console.WriteLine("Type 'exit', 'quit' or 'q' to close the application.\n");
         while (true)

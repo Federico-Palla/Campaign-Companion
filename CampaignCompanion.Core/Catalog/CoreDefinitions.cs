@@ -18,7 +18,7 @@ public sealed class SkillDefinition : CatalogEntry
 {
     public new const string SectionName = "Skills";
 
-    public required string Attribute { get; init; }
+    public string Attribute { get; init; } = string.Empty;
 
     public override bool Validate(out string errorMessage)
     {
